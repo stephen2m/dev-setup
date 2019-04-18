@@ -2,9 +2,9 @@
 
 . $(dirname $0)/common.sh
 
-msg "Started $(basename $0) at $(/bin/date "+%F %T")"
+msg "Started script $(basename $0) using $(get_linux_version) config"
 start_sec=$(/bin/date +%s.%N)
-msg "Please provide your root password to allow this script to work as intended"
+printf "\nPlease provide your root password to allow this script to work as intended\n"
 
 # ask for administrator password upfront
 sudo -v
