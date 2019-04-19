@@ -20,8 +20,10 @@ set -o pipefail
 LOG_DIRECTORY='logs'
 LOG_FILE="${LOG_DIRECTORY}/"`date +%Y-%m-%d`.log
 
-# App versions to use
+# app versions to use
 JAVA_VERSION="jdk8"
+RUBY_VERSION="2.4.3"
+RAILS_VERSION="5.1.4"
 
 # Usage: msg <message>
 #
