@@ -20,6 +20,9 @@ jobs:
           command: |
             bash tasks/ubuntu/01_osprep.sh
 
+      - store_artifacts:
+          path: logs
+
   run-arch-linux:
     docker:
       - image: oddlid/arch-desktop
