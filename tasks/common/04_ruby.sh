@@ -11,10 +11,12 @@
 
 _outputMessage "Started ruby on rails installation script $(basename $0)"
 
-_hasSudo
+if [[ $CIRCLECI ]]; then
+  _hasSudo
 
-# keep existing `sudo` timestamp until the script is completed
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  # keep existing `sudo` timestamp until the script is completed
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
 
 answer=`_promptUser "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" false`
 userResponse=${answer}

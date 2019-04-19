@@ -12,10 +12,12 @@
 
 _outputMessage "Started system tweaks script $(basename $0)"
 
-_hasSudo
+if [[ $CIRCLECI ]]; then
+  _hasSudo
 
-# keep existing `sudo` timestamp until the script is completed
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  # keep existing `sudo` timestamp until the script is completed
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
 
 answer=`_promptUser "Do you wish to install the Heroku CLI client?" false`
 userResponse=${answer}

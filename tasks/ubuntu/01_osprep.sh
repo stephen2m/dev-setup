@@ -12,10 +12,12 @@
 
 _outputMessage "Started OS init script $(basename $0)"
 
-_hasSudo
+if [[ $CIRCLECI ]]; then
+  _hasSudo
 
-# keep existing `sudo` timestamp until the script is completed
-while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  # keep existing `sudo` timestamp until the script is completed
+  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+fi
 
 _outputMessage "Update system packages"
 sudo apt update -y
