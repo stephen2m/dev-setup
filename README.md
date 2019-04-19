@@ -1,9 +1,11 @@
 dev-setup
 ============
+
+[![CircleCI](https://circleci.com/gh/stephen2m/dev-setup.svg?style=svg)](https://circleci.com/gh/stephen2m/dev-setup)
+
 Some inspiration drawn from:
 - https://github.com/donnemartin/dev-setup
 - https://github.com/komuw/hardstone
-
 
 ## Main Aim
 
