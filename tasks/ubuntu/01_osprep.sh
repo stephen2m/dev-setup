@@ -22,10 +22,10 @@ else
 fi
 
 _outputMessage "Update system packages"
-sudo apt update -y
+apt update -y
 _outputMessage "Done updating system packages"
 
-sudo apt install -y git software-properties-common gcc build-essential libssl-dev libffi-dev curl wget
+apt install -y git software-properties-common gcc build-essential libssl-dev libffi-dev curl wget
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
