@@ -17,12 +17,15 @@ set -o errexit
 # Normally, pipelines only return a failure if the last command errors
 set -o pipefail
 
+export DEBIAN_FRONTEND=noninteractive
+
 LOG_DIRECTORY='logs'
 LOG_FILE="${LOG_DIRECTORY}/"`date +%Y-%m-%d`.log
 
 # app versions and other useful shortcuts
 SDKMAN_URL="https://get.sdkman.io"
-JAVA_VERSION="jdk8"
+JAVA_VERSION_ARCH="jdk8"
+JAVA_VERSION_UBUNTU="openjdk-8-jdk"
 RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
 RUBY_VERSION="2.4.3"
 RAILS_VERSION="5.1.4"
@@ -143,6 +146,10 @@ _installPackage() {
     ManjaroLinux)
       _outputMessage "Installing $PACKAGE"
       yay -S --noconfirm --needed --overwrite '*' ${PACKAGE}
+      ;;
+    Ubuntu)
+      _outputMessage "Installing $PACKAGE"
+      sudo apt install -y ${PACKAGE}
       ;;
     *)
       _errorExit "Could not determine OS in use to install $PACKAGE. OS parser found $(_getLinuxVersion)"
