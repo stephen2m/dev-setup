@@ -19,7 +19,7 @@ jobs:
       - run:
           name: Provision OS
           command: |
-            bash ubuntu/01_osprep.sh
+            bash tasks/ubuntu/01_osprep.sh
 
       - store_test_results:
           path: /logs
