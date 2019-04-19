@@ -30,21 +30,21 @@ RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
 RUBY_VERSION="2.4.3"
 RAILS_VERSION="5.1.4"
 
-# Usage: msg <message>
+# Usage: _outputMessage <message>
 #
 # Outputs <message> to the terminal
 # And also logs to the current LOG_FILE value
 _outputMessage() {
-  if [[ "$#" -ne 2 ]]; then
-    _errorExit "Expected 1 (one) parameter.  Usage: _outputMessage <message>"
-  fi
-
   if [[ ! -d "$LOG_DIRECTORY" ]]; then
     mkdir ${LOG_DIRECTORY}
   fi
 
   if [[ ! -e "$LOG_FILE" ]]; then
     touch ${LOG_FILE}
+  fi
+
+  if [[ "$#" -ne 1 ]]; then
+    _errorExit "Function call expected 1 (one) parameter.  Usage: _outputMessage <message>"
   fi
 
   local fmt="$1"; shift
@@ -69,11 +69,11 @@ _scriptCompletedMessage() {
 # And immediately exits the currently running script
 _errorExit() {
   if [[ "$#" -ne 1 ]]; then
-    _errorExit "Expected 1 (one) parameter.  Usage: _errorExit <message>"
+    printf "$(/bin/date "+%F %T"): [FATAL] Function call expected 1 (one) parameter.  Usage: _errorExit <message>"
   fi
   local message=$1
 
-  _outputMessage "[FATAL] $message\n"
+  printf "$(/bin/date "+%F %T"): [FATAL] $message\n" "$@" | tee -a ${LOG_FILE}
   exit 1
 }
 
