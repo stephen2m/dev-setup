@@ -12,8 +12,8 @@
 
 _outputMessage "Started system tweaks script $(basename $0)"
 
-if [[ $CIRCLECI ]]; then
-  _outputMessage "skipping sudo check for circleci"
+if [[ $CIRCLECI = true ]]; then
+  _outputMessage "Skipping sudo check for circleci"
 else
   _hasSudo
 
