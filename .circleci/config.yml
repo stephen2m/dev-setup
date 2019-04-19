@@ -7,7 +7,6 @@ jobs:
   run-ubuntu:
     docker:
       - image: ubuntu:18.04
-      - user: ubuntu
     working_directory: /home/stephen2m/repo
 
     steps:
