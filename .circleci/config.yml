@@ -19,10 +19,8 @@ jobs:
       - run:
           name: Provision OS
           command: |
-            bash tasks/ubuntu/01_osprep.sh
+            bash setup.sh
 
-      - store_test_results:
-          path: /logs
   run-arch-linux:
     docker:
       - image: oddlid/arch-desktop
@@ -38,9 +36,6 @@ jobs:
           name: setup
           command: |
             bash setup.sh
-
-      - store_test_results:
-          path: /logs
 
 workflows:
   version: 2
