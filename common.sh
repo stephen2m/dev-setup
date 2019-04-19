@@ -20,8 +20,10 @@ set -o pipefail
 LOG_DIRECTORY='logs'
 LOG_FILE="${LOG_DIRECTORY}/"`date +%Y-%m-%d`.log
 
-# app versions to use
+# app versions and other useful shortcuts
+SDKMAN_URL="https://get.sdkman.io"
 JAVA_VERSION="jdk8"
+RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
 RUBY_VERSION="2.4.3"
 RAILS_VERSION="5.1.4"
 

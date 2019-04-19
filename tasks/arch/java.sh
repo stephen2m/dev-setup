@@ -28,7 +28,7 @@ fi
 answer=`_promptUser "Do you wish to install sdkman?" false`
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
-  curl -s "https://get.sdkman.io" | bash
+  curl -s ${SDKMAN_URL} | bash
   source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
 

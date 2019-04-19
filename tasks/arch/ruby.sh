@@ -23,7 +23,7 @@ if [[ ${userResponse} =~ ^[Yy]$ ]]; then
     mkdir -p ~/.rbenv/plugins
   fi
   _outputMessage "Cloning rbenv repo"
-  git clone git://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
+  git clone${RBENV_REPO} ~/.rbenv/plugins/ruby-build
 
   if [[ $SHELL == "/usr/bin/zsh" ]]; then
     userShell="zsh"
