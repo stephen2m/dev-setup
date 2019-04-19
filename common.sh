@@ -27,8 +27,8 @@ SDKMAN_URL="https://get.sdkman.io"
 JAVA_VERSION_ARCH="jdk8"
 JAVA_VERSION_UBUNTU="openjdk-8-jdk"
 RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
-RUBY_VERSION="2.4.3"
-RAILS_VERSION="5.1.4"
+RUBY_VERSION="2.6.1"
+RAILS_VERSION="5.2.2"
 
 # Usage: _outputMessage <message>
 #

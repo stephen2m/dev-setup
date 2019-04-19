@@ -1,0 +1,43 @@
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
+jobs:
+  run-ubuntu:
+    docker:
+      - image: ubuntu:18.04
+    working_directory: /home/stephen2m/repo
+
+    steps:
+      - checkout
+      - run:
+          name: list directory
+          command: |
+            pwd; ls -lsha
+      - run:
+          name: setup
+          command: |
+            bash setup.sh
+  run-arch-linux:
+    docker:
+      - image: oddlid/arch-desktop
+    working_directory: /home/stephen2m/repo
+
+    steps:
+      - checkout
+      - run:
+          name: list directory
+          command: |
+            pwd; ls -lsha
+      - run:
+          name: setup
+          command: |
+            bash setup.sh
+
+workflows:
+  version: 2
+  provision-environment:
+    jobs:
+      - run-ubuntu
+      - run-arch-linux
