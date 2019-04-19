@@ -1,7 +1,7 @@
 dev-setup
 ============
 
-[![CircleCI](https://circleci.com/gh/stephen2m/dev-setup.svg?style=svg)](https://circleci.com/gh/stephen2m/dev-setup)
+[![CircleCI](https://circleci.com/gh/stephen2m/dev-setup/tree/master.svg?style=svg&circle-token=8bbb304f3c40e14fac9255c596b18c214b6bb660)](https://circleci.com/gh/stephen2m/dev-setup/tree/master)
 
 Some inspiration drawn from:
 - https://github.com/donnemartin/dev-setup
