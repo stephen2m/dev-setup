@@ -7,6 +7,7 @@ jobs:
   run-ubuntu:
     docker:
       - image: ubuntu:18.04
+      - user: ubuntu
     working_directory: /home/stephen2m/repo
 
     steps:
@@ -16,9 +17,12 @@ jobs:
           command: |
             pwd; ls -lsha
       - run:
-          name: setup
+          name: Provision OS
           command: |
-            bash setup.sh
+            bash ubuntu/01_osprep.sh
+
+      - store_test_results:
+          path: /logs
   run-arch-linux:
     docker:
       - image: oddlid/arch-desktop
@@ -34,6 +38,9 @@ jobs:
           name: setup
           command: |
             bash setup.sh
+
+      - store_test_results:
+          path: /logs
 
 workflows:
   version: 2

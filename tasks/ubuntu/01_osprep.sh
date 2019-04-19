@@ -4,7 +4,7 @@
 ################################################################################
 # Name:            01_osprep.sh
 # Usage:           n/a
-# Description:     Installs basic packages needed for an ArchLinux environment
+# Description:     Installs basic packages needed for an Ubuntu environment
 ################################################################################
 ################################################################################
 
