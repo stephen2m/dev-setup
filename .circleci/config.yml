@@ -40,4 +40,3 @@ workflows:
   provision-environment:
     jobs:
       - run-ubuntu
-      - run-arch-linux
