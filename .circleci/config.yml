@@ -27,6 +27,10 @@ jobs:
           name: Setup java
           command: |
             bash tasks/common/02_java.sh
+      - run: 
+          command: |
+            echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
+            echo '[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
       - run:
           name: Setup npm
           command: |

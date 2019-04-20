@@ -12,7 +12,7 @@
 _outputMessage "Started java installation script $(basename $0)"
 
 if [[ $CIRCLECI ]]; then
-  _outputMessage "skipping sudo check for circleci"
+  _outputMessage "Skipping sudo check for circleci"
 else
   _hasSudo
 
@@ -20,7 +20,7 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-_outputMessage "installing JAVA and related helpers"
+_outputMessage "Installing JAVA and related helpers"
 
 if [[ $(_getLinuxVersion) == "ManjaroArch" ]]; then
   JAVA_VERSION=${JAVA_VERSION_ARCH}
