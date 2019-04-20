@@ -32,7 +32,7 @@ if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   nvm install --lts
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
-  sudo npm install -g @angular/cli tslint
+  # sudo npm install -g @angular/cli tslint
 fi
 
 _scriptCompletedMessage
