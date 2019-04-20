@@ -28,10 +28,10 @@ if [[ ${CIRCLECI} != true ]]; then
 fi
 
 if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
-  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-  nvm install --lts
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
+  nvm install --lts
   nvm use $(node -v)
   nvm alias default $(node -v)
   sudo npm install -g @angular/cli tslint
