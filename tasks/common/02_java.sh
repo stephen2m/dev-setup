@@ -31,17 +31,22 @@ fi
 if [[ $(_getLinuxVersion) == "/usr/bin/java" ]]; then
   _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
 else
-  answer=`_promptUser "Do you wish to install $JAVA_VERSION?" false`
-  userResponse=${answer}
-  if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+  if [[ ${CIRCLECI} != true ]]; then
+    answer=`_promptUser "Do you wish to install $JAVA_VERSION?" true`
+    userResponse=${answer}
+  fi
+  if [[ ${userResponse} =~ ^[Yy]$ || $CIRCLECI ]]; then
     _outputMessage "Installing $JAVA_VERSION"
     _installPackage ${JAVA_VERSION}
   fi
 fi
 
-answer=`_promptUser "Do you wish to install sdkman?" false`
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+if [[ ${CIRCLECI} != true ]]; then
+  answer=`_promptUser "Do you wish to install sdkman?" true`
+  userResponse=${answer}
+fi
+
+if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   curl -s ${SDKMAN_URL} | bash
   source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi

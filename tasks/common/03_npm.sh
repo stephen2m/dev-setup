@@ -22,7 +22,7 @@ fi
 
 _outputMessage "installing NPM and related helpers"
 
-answer=`_promptUser "Do you wish to install npm?" false`
+answer=`_promptUser "Do you wish to install npm?" true`
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash

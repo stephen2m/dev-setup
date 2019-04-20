@@ -12,13 +12,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: list directory
+          name: List Directory Contents
           command: |
             pwd; ls -lsha
       - run:
           name: Provision OS
           command: |
             bash tasks/ubuntu/01_osprep.sh
+      - run:
+          name: Setup git
+          command: |
+            bash tasks/common/01_git.sh
 
       - store_artifacts:
           path: logs
