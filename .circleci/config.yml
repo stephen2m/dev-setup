@@ -23,6 +23,10 @@ jobs:
           name: Setup git
           command: |
             bash tasks/common/01_git.sh
+      - run:
+          name: Setup java
+          command: |
+            bash tasks/common/02_java.sh
 
       - store_artifacts:
           path: logs

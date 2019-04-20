@@ -48,7 +48,9 @@ fi
 
 if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   curl -s ${SDKMAN_URL} | bash
-  source "$HOME/.sdkman/bin/sdkman-init.sh"
+  if [[ ${CIRCLECI} != true ]]; then
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
+  fi
 fi
 
 #-------------------------------------------------------------------------------

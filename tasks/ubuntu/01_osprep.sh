@@ -26,7 +26,7 @@ apt update -y
 _outputMessage "Done updating system packages"
 apt install -y sudo
 
-sudo apt install -y git software-properties-common gcc build-essential libssl-dev libffi-dev curl wget
+sudo apt install -y git unzip software-properties-common gcc build-essential libssl-dev libffi-dev curl wget
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
