@@ -32,12 +32,6 @@ if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
   nvm install --lts
-  if [[ ${CIRCLECI} ]]; then
-  touch $BASH_ENV
-    echo 'export NVM_DIR="$HOME/.nvm"' >> $BASH_ENV
-    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
-    echo 'nvm alias default 10.6.0' >> $BASH_ENV
-  fi
   sudo npm install -g @angular/cli tslint
 fi
 

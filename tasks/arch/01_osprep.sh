@@ -61,6 +61,6 @@ if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   esac
 fi
 
-sudo pacman -S git base-devel yay bind-tools
+sudo pacman -S --noconfirm --needed git base-devel yay bind-tools zip unzip wget curl
 
 _scriptCompletedMessage
