@@ -31,10 +31,6 @@ jobs:
           name: Setup npm
           command: |
             bash tasks/common/03_npm.sh
-      - run:
-          name: Setup ruby on rails
-          command: |
-            bash tasks/common/04_ruby.sh
 
       - store_artifacts:
           path: logs
