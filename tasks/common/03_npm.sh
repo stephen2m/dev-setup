@@ -31,14 +31,15 @@ if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
   export NVM_DIR="$HOME/.nvm"
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
-  nvm install node
-  nvm use $(node -v)
-  nvm alias default $(node -v)
-  # trying to get around some weirdness with circleci here
-  while ! sudo npm install -g @angular/cli tslint; do
-    _outputMessage "Trying to install NPM packages without sudo"
+  if [[ ${CIRCLECI} ]]; then
+    _outputMessage "Trying to install NPM packages without sudo - circleci tweak"
+    nvm install node
+    nvm use $(node -v)
+    nvm alias default $(node -v)
     npm install -g @angular/cli tslint
-  done
+  else
+    sudo npm install -g @angular/cli tslint
+  fi
 fi
 
 _scriptCompletedMessage
