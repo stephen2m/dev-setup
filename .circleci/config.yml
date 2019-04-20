@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - checkout
-      - run: apt install -y sudo
+      - run: apt-get install -y sudo
       - run:
           name: list directory
           command: |
