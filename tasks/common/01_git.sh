@@ -32,8 +32,8 @@ if [[ ${CIRCLECI} != true ]]; then
 fi
 
 if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
-  git config --global user.name ${git_name}
-  git config --global user.email ${git_email}
+  git config --global user.name ${git_name:="circleci"}
+  git config --global user.email ${git_email:="circleci@testing.com"}
 fi
 
 if [[ ${CIRCLECI} != true ]]; then
@@ -42,7 +42,7 @@ if [[ ${CIRCLECI} != true ]]; then
 fi
 
 if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
-  ## https://stackoverflow.com/a/40842589/499855
+  # https://stackoverflow.com/a/40842589/499855
   _outputMessage "Enabling auto prune on fetch or pull"
   git config --global fetch.prune true
   git config --global gui.pruneDuringFetch true
