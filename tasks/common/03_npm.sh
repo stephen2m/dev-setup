@@ -34,7 +34,11 @@ if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   nvm install node
   nvm use $(node -v)
   nvm alias default $(node -v)
-  sudo npm install -g @angular/cli tslint
+  # trying to get around some weirdness with circleci here
+  while ! sudo npm install -g @angular/cli tslint; do
+    _outputMessage "Trying to install NPM packages without sudo"
+    npm install -g @angular/cli tslint
+  done
 fi
 
 _scriptCompletedMessage
