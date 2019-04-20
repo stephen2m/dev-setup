@@ -36,7 +36,6 @@ else
     userResponse=${answer}
   fi
   if [[ ${userResponse} =~ ^[Yy]$ || $CIRCLECI ]]; then
-    _outputMessage "Installing $JAVA_VERSION"
     _installPackage ${JAVA_VERSION}
   fi
 fi
