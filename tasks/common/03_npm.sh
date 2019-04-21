@@ -7,9 +7,10 @@
 ################################################################################
 ################################################################################
 
+# shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started npm installation script $(basename $0)"
+_outputMessage "Started npm installation script $(basename "$0")"
 
 if [[ $CIRCLECI = true ]]; then
   _outputMessage "Skipping sudo check for circleci"
@@ -22,11 +23,12 @@ fi
 
 _outputMessage "installing NPM and related helpers"
 
-answer=`_promptUser "Do you wish to install npm?" false`
+answer=$(_promptUser "Do you wish to install npm?" false)
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
   export NVM_DIR="$HOME/.nvm"
+  # shellcheck disable=SC1090
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
   nvm install --lts
   sudo npm install -g @angular/cli tslint

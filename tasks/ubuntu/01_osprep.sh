@@ -8,9 +8,10 @@
 ################################################################################
 ################################################################################
 
+# shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started OS init script $(basename $0)"
+_outputMessage "Started OS init script $(basename "$0")"
 
 if [[ $CIRCLECI = true ]]; then
   _outputMessage "Skipping sudo check for circleci"

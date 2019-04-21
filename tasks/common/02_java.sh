@@ -7,9 +7,10 @@
 ################################################################################
 ################################################################################
 
+# shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started java installation script $(basename $0)"
+_outputMessage "Started java installation script $(basename "$0")"
 
 if [[ $CIRCLECI ]]; then
   _outputMessage "skipping sudo check for circleci"
@@ -31,18 +32,19 @@ fi
 if [[ $(_getLinuxVersion) == "/usr/bin/java" ]]; then
   _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
 else
-  answer=`_promptUser "Do you wish to install $JAVA_VERSION?" false`
+  answer=$(_promptUser "Do you wish to install $JAVA_VERSION?" false)
   userResponse=${answer}
   if [[ ${userResponse} =~ ^[Yy]$ ]]; then
     _outputMessage "Installing $JAVA_VERSION"
-    _installPackage ${JAVA_VERSION}
+    _installPackage "${JAVA_VERSION}"
   fi
 fi
 
-answer=`_promptUser "Do you wish to install sdkman?" false`
+answer=$(_promptUser "Do you wish to install sdkman?" false)
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
-  curl -s ${SDKMAN_URL} | bash
+  curl -s "${SDKMAN_URL}" | bash
+  # shellcheck disable=SC1090
   source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
 

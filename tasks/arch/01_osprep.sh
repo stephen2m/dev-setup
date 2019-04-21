@@ -8,9 +8,10 @@
 ################################################################################
 ################################################################################
 
-. $(dirname $0)/common.sh
+# shellcheck disable=SC1091
+. common.sh
 
-_outputMessage "Started OS init script $(basename $0)"
+_outputMessage "Started OS init script $(basename "$0")"
 
 if [[ $CIRCLECI = true ]]; then
   _outputMessage "Skipping sudo check for circleci"
@@ -25,34 +26,34 @@ _outputMessage "Update system packages"
 sudo pacman -Syyu
 _outputMessage "Done updating system packages"
 
-answer=`_promptUser "Do you wish to speed up compiling packages by changing makeflags and compression settings?" true`
+answer=$(_promptUser "Do you wish to speed up compiling packages by changing makeflags and compression settings?" true)
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   numberOfCores=$(grep -c ^processor /proc/cpuinfo)
 
   case ${numberOfCores} in
     8)
-      _outputMessage "You have "${numberOfCores}" cores. Changing the makeflags for "${numberOfCores}"  cores"
+      _outputMessage "You have ${numberOfCores} cores. Changing the makeflags for ${numberOfCores} cores"
       sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j9"/g' /etc/makepkg.conf
-      _outputMessage "Changing the compression settings for "${numberOfCores}" cores."
+      _outputMessage "Changing the compression settings for ${numberOfCores} cores."
       sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T 8 -z -)/g' /etc/makepkg.conf
       ;;
     6)
-      _outputMessage "You have "${numberOfCores}" cores. Changing the makeflags for "${numberOfCores}"  cores"
+      _outputMessage "You have ${numberOfCores} cores. Changing the makeflags for ${numberOfCores} cores"
       sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j7"/g' /etc/makepkg.conf
-      _outputMessage "Changing the compression settings for "${numberOfCores}" cores."
+      _outputMessage "Changing the compression settings for ${numberOfCores} cores."
       sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T 6 -z -)/g' /etc/makepkg.conf
       ;;
     4)
-      _outputMessage "You have "${numberOfCores}" cores. Changing the makeflags for "${numberOfCores}"  cores"
+      _outputMessage "You have ${numberOfCores} cores. Changing the makeflags for ${numberOfCores} cores"
       sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j5"/g' /etc/makepkg.conf
-      _outputMessage "Changing the compression settings for "${numberOfCores}" cores."
+      _outputMessage "Changing the compression settings for ${numberOfCores} cores."
       sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T 4 -z -)/g' /etc/makepkg.conf
       ;;
     2)
-      _outputMessage "You have "${numberOfCores}" cores. Changing the makeflags for "${numberOfCores}"  cores"
+      _outputMessage "You have ${numberOfCores} cores. Changing the makeflags for ${numberOfCores} cores"
       sudo sed -i 's/#MAKEFLAGS="-j2"/MAKEFLAGS="-j3"/g' /etc/makepkg.conf
-      _outputMessage "Changing the compression settings for "${numberOfCores}" cores."
+      _outputMessage "Changing the compression settings for ${numberOfCores} cores."
       sudo sed -i 's/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T 2-z -)/g' /etc/makepkg.conf
       ;;
     *)

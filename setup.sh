@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 
-. $(dirname $0)/common.sh
+# shellcheck disable=SC1090
+. "$(dirname "$0")/common.sh"
 
-_outputMessage "Started script $(basename $0) for $(_getLinuxVersion)"
+_outputMessage "Started script $(basename "$0") for $(_getLinuxVersion)"
+# shellcheck disable=SC2034
 start_sec=$(/bin/date +%s.%N)
 
 case $(_getLinuxVersion) in
   ManjaroLinux)
-    for file in `ls tasks/arch/*.sh | sort`
+    for file in $(find tasks/arch/*.sh | sort)
     do
       bash "$file" -H || break
     done
     ;;
   Ubuntu)
-    for file in `ls tasks/ubuntu/*.sh | sort`
+    for file in $(find tasks/ubuntu/*.sh | sort)
     do
       bash "$file" -H || break
     done
@@ -23,7 +25,7 @@ case $(_getLinuxVersion) in
     ;;
 esac
 
-for file in `ls tasks/common/*.sh | sort`
+for file in $(find tasks/common/*.sh | sort)
 do
   bash "$file" -H || break
 done
