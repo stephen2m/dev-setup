@@ -21,17 +21,27 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-_outputMessage "installing NPM and related helpers"
+_outputMessage "Installing NPM and related helpers"
 
-answer=$(_promptUser "Do you wish to install npm?" false)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+if [[ ${CIRCLECI} != true ]]; then
+  answer=$(_promptUser "Do you wish to install npm?" true)
+  userResponse=${answer}
+fi
+
+if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
   export NVM_DIR="$HOME/.nvm"
   # shellcheck disable=SC1090
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
-  nvm install --lts
-  sudo npm install -g @angular/cli tslint
+  if [[ ${CIRCLECI} ]]; then
+    _outputMessage "Trying to install NPM packages without sudo - circleci tweak"
+    nvm install node
+    nvm use $(node -v)
+    nvm alias default $(node -v)
+    npm install -g @angular/cli tslint
+  else
+    sudo npm install -g @angular/cli tslint
+  fi
 fi
 
 _scriptCompletedMessage

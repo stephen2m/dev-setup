@@ -21,7 +21,7 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-answer=$(_promptUser "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" false)
+answer=$(_promptUser "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" true)
 userResponse=${answer}
 if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   if [[ ! -e "$HOME/.rbenv/plugins" ]]; then
