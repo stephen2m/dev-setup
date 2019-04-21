@@ -20,7 +20,7 @@ set -o pipefail
 export DEBIAN_FRONTEND=noninteractive
 
 LOG_DIRECTORY='logs'
-LOG_FILE="${LOG_DIRECTORY}/"`date +%Y-%m-%d`.log
+LOG_FILE="${LOG_DIRECTORY}/"$(date +%Y-%m-%d).log
 
 # app versions and other useful shortcuts
 SDKMAN_URL="https://get.sdkman.io"
@@ -40,7 +40,7 @@ _outputMessage() {
   fi
 
   if [[ ! -e "$LOG_FILE" ]]; then
-    touch ${LOG_FILE}
+    touch "${LOG_FILE}"
   fi
 
   if [[ "$#" -ne 1 ]]; then
@@ -48,7 +48,8 @@ _outputMessage() {
   fi
 
   local fmt="$1"; shift
-  printf "$(/bin/date "+%F %T"): $fmt\n" "$@" | tee -a ${LOG_FILE}
+  date=$(/bin/date "+%F %T")
+  printf "$date: $fmt\n" "$@" | tee -a ${LOG_FILE}
 }
 
 # Usage: _scriptCompletedMessage
@@ -57,10 +58,11 @@ _outputMessage() {
 # Currently shows how long a script took to run
 # Uses the $start_sec script-level variable to determine this
 _scriptCompletedMessage() {
-  end_sec=$(/bin/date +%s.%N)
+  local end_sec=$(/bin/date +%s.%N)
+  # shellcheck disable=SC2154
   elapsed_seconds=$(echo "$end_sec" "$start_sec" | awk '{ print $1 - $2 }')
 
-  _outputMessage "Finished execution of $(basename $0) in $elapsed_seconds seconds\n"
+  _outputMessage "Finished execution of $(basename "$0") in $elapsed_seconds seconds\n"
 }
 
 # Usage: _errorExit <message>
@@ -68,12 +70,14 @@ _scriptCompletedMessage() {
 # Writes <message> to screen and logfile as a "fatal"
 # And immediately exits the currently running script
 _errorExit() {
-  if [[ "$#" -ne 1 ]]; then
-    printf "$(/bin/date "+%F %T"): [FATAL] Function call expected 1 (one) parameter.  Usage: _errorExit <message>"
-  fi
+  local date=$(/bin/date "+%F %T")
   local message=$1
+  if [[ "$#" -ne 1 ]]; then
+    printf "$date: [FATAL] Function call expected 1 (one) parameter.  Usage: _errorExit <message>"
+    exit 1
+  fi
 
-  printf "$(/bin/date "+%F %T"): [FATAL] $message\n" "$@" | tee -a ${LOG_FILE}
+  printf "$date: [FATAL] $message\n" "$@" | tee -a ${LOG_FILE}
   exit 1
 }
 
@@ -82,7 +86,7 @@ _errorExit() {
 # Determines linux-flavor running on the machine in use
 # Currently only detects debian and arch
 _getLinuxVersion() {
-  dist=`grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}'`
+  dist=$(grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}')
 
   echo "$dist"
 }
@@ -108,11 +112,12 @@ _promptUser() {
 
   read -ep "$QUESTION $OPTIONS " -n 1 -s -r INPUT
   INPUT=${INPUT:-${DEFAULT}}
-  echo ${INPUT}
+  echo "${INPUT}"
 
   if [[ "$INPUT" =~ ^[yY]$ ]]; then
     ANSWER=true
   else
+    # shellcheck disable=SC2034
     ANSWER=false
   fi
 }
@@ -145,11 +150,11 @@ _installPackage() {
   case $(_getLinuxVersion) in
     ManjaroLinux)
       _outputMessage "Installing $PACKAGE"
-      yay -S --noconfirm --needed --overwrite '*' ${PACKAGE}
+      yay -S --noconfirm --needed --overwrite '*' "${PACKAGE}"
       ;;
     Ubuntu)
       _outputMessage "Installing $PACKAGE"
-      sudo apt install -y ${PACKAGE}
+      sudo apt install -y "${PACKAGE}"
       ;;
     *)
       _errorExit "Could not determine OS in use to install $PACKAGE. OS parser found $(_getLinuxVersion)"
