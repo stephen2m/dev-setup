@@ -38,3 +38,6 @@ Simplify & automate setting up the following:
     * **03_npm.sh** setups the latest NPM using [NVM](https://github.com/creationix/nvm) (Node Version Managers)
     * **04_ruby.sh** setups Ruby on Rails as per the version specified in common.sh.  By default installs Ruby 2.6.1 and Rails 5.2.2.
       For any issues in the install process, the [gorails setup guide](https://gorails.com/setup) should iron things out
+
+## TODOS
+- Add macos scripting
