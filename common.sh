@@ -84,9 +84,8 @@ _errorExit() {
 # Usage: _getLinuxVersion
 #
 # Determines linux-flavor running on the machine in use
-# Currently only detects debian and arch
 _getLinuxVersion() {
-  dist=$(grep ID_LIKE /etc/*-release | awk -F '=' '{print $2}')
+  dist=$(grep ID_LIKE /etc/os-release | awk -F '=' '{print $2}')
 
   echo "$dist"
 }
