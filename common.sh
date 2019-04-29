@@ -86,7 +86,7 @@ _errorExit() {
 # Determines linux-flavor running on the machine in use
 # Currently only detects debian and arch
 _getLinuxVersion() {
-  dist=$(grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}')
+  dist=$(grep ID_LIKE /etc/*-release | awk -F '=' '{print $2}')
 
   echo "$dist"
 }
@@ -148,16 +148,16 @@ _installPackage() {
   PACKAGE=$1
 
   case $(_getLinuxVersion) in
-    ManjaroLinux)
+    arch)
       _outputMessage "Installing $PACKAGE"
       yay -S --noconfirm --needed --overwrite '*' "${PACKAGE}"
       ;;
-    Ubuntu)
+    debian)
       _outputMessage "Installing $PACKAGE"
       sudo apt install -y "${PACKAGE}"
       ;;
     *)
-      _errorExit "Could not determine OS in use to install $PACKAGE. OS parser found $(_getLinuxVersion)"
+      _errorExit "Could not determine OS/distro in use to install $PACKAGE. Parser found $(_getLinuxVersion)"
       ;;
   esac
 }
