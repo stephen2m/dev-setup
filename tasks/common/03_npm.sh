@@ -23,7 +23,7 @@ fi
 
 _outputMessage "Installing NPM and related helpers"
 
-if [[ $(_ask "Do you wish to install npm?" "Y") || ${CIRCLECI} ]]; then
+if [[ $(_ask "Do you wish to install npm?" "Y") ]]; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
   export NVM_DIR="$HOME/.nvm"
   # shellcheck disable=SC1090
