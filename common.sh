@@ -90,38 +90,6 @@ _getLinuxVersion() {
   echo "$dist"
 }
 
-# Usage _promptUser <question> <default-boolean-response>
-#
-# Displays a yes/no prompt while highlighting the preferred option in uppercase
-_promptUser() {
-  if [[ "$#" -ne 2 ]]; then
-    _errorExit "Expected 2 (two) parameters.  Usage: _promptUser <question> <default-boolean-response>"
-  fi
-
-  QUESTION=$1
-  DEFAULT=$2
-
-  if [[ "$DEFAULT" = true ]]; then
-    OPTIONS="[Y/n]"
-    DEFAULT="y"
-  else
-    OPTIONS="[y/N]"
-    DEFAULT="n"
-  fi
-
-  read -ep "$QUESTION $OPTIONS " -n 1 -s -r INPUT
-  INPUT=${INPUT:-${DEFAULT}}
-  echo "${INPUT}"
-
-  if [[ "$INPUT" =~ ^[yY]$ ]]; then
-    ANSWER=true
-  else
-    # shellcheck disable=SC2034
-    ANSWER=false
-  fi
-}
-
-
 # Usage _ask <question> <response> eg _ask "Install package?" N
 # https://github.com/minamarkham/formation/blob/master/twirl#L445
 #
