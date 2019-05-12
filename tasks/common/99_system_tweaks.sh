@@ -32,14 +32,14 @@ if [[ $(_getLinuxVersion) =~ ^[manjaro]$ ]]; then
   echo kernel.unprivileged_userns_clone = 1 | sudo tee /etc/sysctl.d/00-local-userns.conf
 
   _outputMessage "Adding TLP, thermald and cpupower for better power & CPU management"
-  yay --noconfirm --needed -S tlp
+  _installPackage tlp
   sudo systemctl enable tlp
   sudo systemctl enable tlp-sleep.service
 
-  yay --noconfirm --needed -S thermald
+  _installPackage thermald
   sudo systemctl enable thermald
 
-  yay --noconfirm --needed -S cpupower
+  _installPackage cpupower
   sudo systemctl enable cpupower
 fi
 

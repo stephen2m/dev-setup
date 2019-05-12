@@ -131,10 +131,10 @@ _ask() {
 
   while true; do
 
-    if [ "${2:-}" = "Y" ]; then
+    if [[ "${2:-}" = "Y" || "${2:-}" = "y" ]]; then
       prompt="Y/n"
       default=Y
-    elif [ "${2:-}" = "N" ]; then
+    elif [[ "${2:-}" = "N" || "${2:-}" = "n" ]]; then
       prompt="y/N"
       default=N
     else
@@ -149,7 +149,7 @@ _ask() {
     read reply < /dev/tty
 
     # Default?
-    if [ -z "$reply" ]; then
+    if [[ -z "$reply" ]]; then
       reply=$default
     fi
 
@@ -158,7 +158,6 @@ _ask() {
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
     esac
-
   done
 }
 

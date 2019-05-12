@@ -22,7 +22,7 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
-if [[ _ask "Do you wish to initialize your gitconfig?" Y || ${CIRCLECI} ]]; then
+if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") || ${CIRCLECI} ]]; then
   echo -n "Enter your git name: "
   read -r git_name
 
@@ -34,21 +34,21 @@ if [[ _ask "Do you wish to initialize your gitconfig?" Y || ${CIRCLECI} ]]; then
 fi
 
 if ! [[ -f ${SSH_KEY_PUB} ]]; then
-  if [[ _ask "Do you wish to create an SSH key?" Y || ${CIRCLECI} ]]; then
+  if [[ $(_ask "Do you wish to create an SSH key?" "Y") || ${CIRCLECI} ]]; then
     ssh-keygen  -t rsa -b 4096 -o -a 100 -q
     [[ -f ${SSH_KEY_PUB} ]] && cat ${SSH_KEY_PUB} | xclip -r -selection clipboard
     _outputMessage "Public key successfully created and copied into your clipboard."
   fi
 fi
 
-if [[ _ask "Do you wish to enable auto prune on fetch or pull?" Y || ${CIRCLECI} ]]; then
+if [[ $(_ask "Do you wish to enable auto prune on fetch or pull?" "Y") || ${CIRCLECI} ]]; then
   # https://stackoverflow.com/a/40842589/499855
   _outputMessage "Enabling auto prune on fetch or pull"
   git config --global fetch.prune true
   git config --global gui.pruneDuringFetch true
 fi
 
-if [[ _ask "Do you wish to enable a better looking git log?" Y || ${CIRCLECI} ]]; then
+if [[ $(_ask "Do you wish to enable a better looking git log?" "Y") || ${CIRCLECI} ]]; then
   git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
   git config --global alias.lg-ascii "log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit"
   _outputMessage "Done"
