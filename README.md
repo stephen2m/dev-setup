@@ -32,12 +32,15 @@ Simplify & automate setting up the following:
     * Has a few helper functions used by the other scripts.  Handles logic such as outputting progress & error handling,
       determining the user's OS, generic handling of package installation between the tested distros etc
 * [tasks/common/*.sh scripts](#common-tasks-scripts)
-    * **01_git.sh** setups a few git-related things: gitconfig, global gitignore, auto prune branches on pull/fetch, 
+    * **01_git.sh** setup a few git-related things: gitconfig, global gitignore, auto prune branches on pull/fetch, 
        other git tweaks such as a better git log
-    * **02_java.sh** setups Java as per the version specified in common.sh.  By default installs OpenJDK 8
-    * **03_npm.sh** setups the latest NPM using [NVM](https://github.com/creationix/nvm) (Node Version Managers)
-    * **04_ruby.sh** setups Ruby on Rails as per the version specified in common.sh.  By default installs Ruby 2.6.1 and Rails 5.2.2.
+    * **02_java.sh** setup Java as per the version specified in common.sh.  By default installs OpenJDK 8
+    * **03_npm.sh** setup the latest NPM using [NVM](https://github.com/creationix/nvm) (Node Version Managers)
+    * **04_ruby.sh** setup Ruby on Rails as per the version specified in common.sh.  By default installs Ruby 2.6.1 and Rails 5.2.2.
       For any issues in the install process, the [gorails setup guide](https://gorails.com/setup) should iron things out
+    * **05_aws.sh** setup basic AWS tools
+    * **06_kubernetes.sh** setup basic kubernetes tools
+    * **07_gce.sh** setup basic Google Cloud tools
 
 ## TODOS
 - Add macos scripting
