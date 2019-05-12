@@ -32,31 +32,20 @@ fi
 if [[ $(_getLinuxVersion) == "/usr/bin/java" ]]; then
   _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
 else
-  if [[ ${CIRCLECI} != true ]]; then
-    answer=$(_promptUser "Do you wish to install $JAVA_VERSION?" true)
-    userResponse=${answer}
-  fi
-  if [[ ${userResponse} =~ ^[Yy]$ || $CIRCLECI ]]; then
+  if [[ _ask "Do you wish to install $JAVA_VERSION?" Y || $CIRCLECI ]]; then
     _installPackage ${JAVA_VERSION}
   fi
 fi
 
-if [[ ${CIRCLECI} != true ]]; then
-  answer=$(_promptUser "Do you wish to install sdkman?" true)
-  userResponse=${answer}
-fi
-
-if [[ ${userResponse} =~ ^[Yy]$ || ${CIRCLECI} ]]; then
+if [[ _ask "Do you wish to install sdkman?" Y || ${CIRCLECI} ]]; then
   curl -s ${SDKMAN_URL} | bash
   if [[ ${CIRCLECI} != true ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
   fi
 fi
 
-#-------------------------------------------------------------------------------
-# sdk install springboot
-# sdk install gradle
-# sdk install groovy
-#-------------------------------------------------------------------------------
+if [[ _ask "Do you wish to install springboot, gradle and groovy?" Y || ${CIRCLECI} ]]; then
+  sdk install springboot gradle groovy
+fi
 
 _scriptCompletedMessage

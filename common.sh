@@ -121,6 +121,47 @@ _promptUser() {
   fi
 }
 
+
+# Usage _ask <question> <response> eg _ask "Install package?" N
+# https://github.com/minamarkham/formation/blob/master/twirl#L445
+# 
+# Displays a yes/no prompt to the user
+_ask() {
+  local prompt default reply
+
+  while true; do
+
+    if [ "${2:-}" = "Y" ]; then
+      prompt="Y/n"
+      default=Y
+    elif [ "${2:-}" = "N" ]; then
+      prompt="y/N"
+      default=N
+    else
+      prompt="y/n"
+      default=
+    fi
+
+    # Ask the question (not using "read -p" as it uses stderr not stdout)
+    echo -n "  [?] $1 [$prompt] "
+
+    # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+    read reply < /dev/tty
+
+    # Default?
+    if [ -z "$reply" ]; then
+      reply=$default
+    fi
+
+    # Check if the reply is valid
+    case "$reply" in
+      Y*|y*) return 0 ;;
+      N*|n*) return 1 ;;
+    esac
+
+  done
+}
+
 # Usage _hasSudo
 #
 # Ensure user has sudo access and also that the script is not running as root
@@ -137,7 +178,7 @@ _hasSudo() {
   fi
 }
 
-# Usage _installPackage
+# Usage _installPackage <package-name>
 #
 # Based on the OS in use, install the specified package
 _installPackage() {
@@ -145,6 +186,8 @@ _installPackage() {
     _errorExit "Expected 1 (one) parameter.  Usage: _installPackage '<package-name>'"
   fi
   PACKAGE=$1
+
+  _isOnline
 
   case $(_getLinuxVersion) in
     arch)
@@ -159,4 +202,15 @@ _installPackage() {
       _errorExit "Could not determine OS/distro in use to install $PACKAGE. Parser found $(_getLinuxVersion)"
       ;;
   esac
+}
+
+# Usage _isOnline
+#
+# Ensure Internet connection, exits if there's no connection
+_isOnline() {
+  if [ ping -q -w1 -c1 google.com &>/dev/null ]; then
+    _errorExit "Cannot install packages when offline";
+  else
+    _outputMessage "Internet connection verified successfully";
+  fi
 }

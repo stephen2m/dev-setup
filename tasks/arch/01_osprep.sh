@@ -62,8 +62,8 @@ if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   esac
 fi
 
-# once installed, run`arch-audit --upgradable --quiet` to see packages 
+# once installed, run `arch-audit --upgradable --quiet` to see packages 
 # that have vulnerabilities and a fix has been made
-sudo pacman -S --noconfirm --needed git base-devel yay bind-tools zip unzip wget curl asciinema netcat lsd arch-audit
+sudo pacman -S --noconfirm --needed git xclip base-devel yay bind-tools zip unzip wget curl asciinema netcat lsd arch-audit
 
 _scriptCompletedMessage
