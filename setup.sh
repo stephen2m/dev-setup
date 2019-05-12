@@ -8,14 +8,14 @@ _outputMessage "Started script $(basename "$0") for $(_getLinuxVersion)"
 start_sec=$(/bin/date +%s.%N)
 
 case $(_getLinuxVersion) in
-  ManjaroLinux)
+  arch)
     for file in $(find tasks/arch/*.sh | sort)
     do
       bash "$file" -H || break
     done
     ;;
-  Ubuntu)
-    for file in $(find tasks/ubuntu/*.sh | sort)
+  debian)
+    for file in $(find tasks/debian/*.sh | sort)
     do
       bash "$file" -H || break
     done
