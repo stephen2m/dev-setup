@@ -22,7 +22,7 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
-if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") ]]; then
+if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") && !{CIRCLE} ]]; then
   echo -n "Enter your git name: "
   read -r git_name
 
@@ -33,7 +33,7 @@ if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") ]]; then
   git config --global user.email ${git_email:="circleci@testing.com"}
 fi
 
-if ! [[ -f ${SSH_KEY_PUB} && ${CIRCLECI} != true ]]; then
+if ! [[ -f ${SSH_KEY_PUB} && !${CIRCLECI} ]]; then
   if [[ $(_ask "Do you wish to create an SSH key?" "Y") ]]; then
     ssh-keygen  -t rsa -b 4096 -o -a 100 -q
     [[ -f ${SSH_KEY_PUB} ]] && cat ${SSH_KEY_PUB} | xclip -r -selection clipboard
