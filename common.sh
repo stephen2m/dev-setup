@@ -90,10 +90,10 @@ _getLinuxVersion() {
   echo "$dist"
 }
 
-# Usage _ask <question> <response> eg _ask "Install package?" N
+# Usage _ask <question> <response> eg _ask "Install package?" "N"
 # https://github.com/minamarkham/formation/blob/master/twirl#L445
 #
-# Displays a yes/no prompt to the user
+# Displays a yes/no prompt, and only allows input of Y or N
 _ask() {
   local prompt default reply
 
