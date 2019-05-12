@@ -22,7 +22,7 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
-if [[ !${CIRCLECI} ]]; then
+if [[ ${CIRCLECI} != true ]]; then
     if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") ]]; then
       echo -n "Enter your git name: "
       read -r git_name
