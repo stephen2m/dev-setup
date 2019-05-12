@@ -12,7 +12,7 @@
 
 _outputMessage "Started java installation script $(basename "$0")"
 
-if [[ $CIRCLECI ]]; then
+if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"
 else
   _hasSudo

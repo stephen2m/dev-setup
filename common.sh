@@ -213,7 +213,9 @@ _installPackage() {
 #
 # Ensure Internet connection, exits if there's no connection
 _isOnline() {
-  if [[ ${CIRCLE} != true ]]; then
+  # circleci will not run ping, and will fail with a socket error
+  # so if circleci, assume we have an internet connection
+  if [[ ! ${CIRCLECI} ]]; then
     isOnline=$(ping -q -w1 -c1 google.com &>/dev/null && echo online || echo offline)
     if [[ ${isOnline} == "offline" ]]; then
       _errorExit "Cannot install packages when offline";

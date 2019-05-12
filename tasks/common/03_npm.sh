@@ -12,7 +12,7 @@
 
 _outputMessage "Started npm installation script $(basename "$0")"
 
-if [[ $CIRCLECI = true ]]; then
+if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"
 else
   _hasSudo

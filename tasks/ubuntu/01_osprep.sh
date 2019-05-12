@@ -13,7 +13,7 @@
 
 _outputMessage "Started OS init script $(basename "$0")"
 
-if [[ $CIRCLECI = true ]]; then
+if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"
 else
   _hasSudo
@@ -27,7 +27,7 @@ apt update -y
 _outputMessage "Done updating system packages"
 apt install -y sudo
 
-sudo apt install -y git xclip unzip zip software-properties-common gcc build-essential libssl-dev libffi-dev curl wget asciinema
+sudo apt install -y git xclip unzip zip software-properties-common gcc build-essential libssl-dev libffi-dev iputils-ping curl wget asciinema
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'

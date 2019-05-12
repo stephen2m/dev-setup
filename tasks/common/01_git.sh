@@ -22,7 +22,7 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
-if [[ ${CIRCLECI} != true ]]; then
+if [[ ! ${CIRCLECI} ]]; then
     if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") ]]; then
       echo -n "Enter your git name: "
       read -r git_name
@@ -35,7 +35,7 @@ if [[ ${CIRCLECI} != true ]]; then
     fi
 fi
 
-if [[ ! -f ${SSH_KEY_PUB} && ${CIRCLECI} != true ]]; then
+if [[ ! -f ${SSH_KEY_PUB} && ! ${CIRCLECI} ]]; then
   if [[ $(_ask "Do you wish to create an SSH key?" "Y") ]]; then
     ssh-keygen  -t rsa -b 4096 -o -a 100 -q
     [[ -f ${SSH_KEY_PUB} ]] && cat ${SSH_KEY_PUB} | xclip -r -selection clipboard
@@ -45,9 +45,9 @@ fi
 
 if [[ $(_ask "Do you wish to enable auto prune on fetch or pull?" "Y") ]]; then
   # https://stackoverflow.com/a/40842589/499855
-  _outputMessage "Enabling auto prune on fetch or pull"
   git config --global fetch.prune true
   git config --global gui.pruneDuringFetch true
+  _outputMessage "Enabled auto prune on fetch or pull successfully"
 fi
 
 if [[ $(_ask "Do you wish to enable a better looking git log?" "Y") ]]; then
