@@ -34,7 +34,7 @@ if [[ $(_ask "Do you wish to initialize your gitconfig?" "Y") || ${CIRCLECI} ]];
 fi
 
 if ! [[ -f ${SSH_KEY_PUB} ]]; then
-  if [[ $(_ask "Do you wish to create an SSH key?" "Y") || ${CIRCLECI} ]]; then
+  if [[ $(_ask "Do you wish to create an SSH key?" "Y") && !${CIRCLECI} ]]; then
     ssh-keygen  -t rsa -b 4096 -o -a 100 -q
     [[ -f ${SSH_KEY_PUB} ]] && cat ${SSH_KEY_PUB} | xclip -r -selection clipboard
     _outputMessage "Public key successfully created and copied into your clipboard."

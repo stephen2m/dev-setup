@@ -207,7 +207,8 @@ _installPackage() {
 #
 # Ensure Internet connection, exits if there's no connection
 _isOnline() {
-  if [ ping -q -w1 -c1 google.com &>/dev/null ]; then
+  isOnline=$(ping -q -w1 -c1 google.com &>/dev/null && echo online || echo offline)
+  if [[ ${isOnline} == "offline" ]]; then
     _errorExit "Cannot install packages when offline";
   else
     _outputMessage "Internet connection verified successfully";
