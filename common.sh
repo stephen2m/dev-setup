@@ -124,41 +124,47 @@ _promptUser() {
 
 # Usage _ask <question> <response> eg _ask "Install package?" N
 # https://github.com/minamarkham/formation/blob/master/twirl#L445
-# 
+#
 # Displays a yes/no prompt to the user
 _ask() {
   local prompt default reply
 
-  while true; do
-
-    if [[ "${2:-}" = "Y" || "${2:-}" = "y" ]]; then
-      prompt="Y/n"
-      default=Y
-    elif [[ "${2:-}" = "N" || "${2:-}" = "n" ]]; then
-      prompt="y/N"
-      default=N
-    else
-      prompt="y/n"
-      default=
-    fi
-
-    # Ask the question (not using "read -p" as it uses stderr not stdout)
-    echo -n "  [?] $1 [$prompt] "
-
-    # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
-    read reply < /dev/tty
-
-    # Default?
-    if [[ -z "$reply" ]]; then
-      reply=$default
-    fi
-
-    # Check if the reply is valid
-    case "$reply" in
+  if [[ ${CIRCLE} ]]; then
+    case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
     esac
-  done
+  else
+      while true; do
+        if [[ "${2:-}" = "Y" || "${2:-}" = "y" ]]; then
+          prompt="Y/n"
+          default=Y
+        elif [[ "${2:-}" = "N" || "${2:-}" = "n" ]]; then
+          prompt="y/N"
+          default=N
+        else
+          prompt="y/n"
+          default=
+        fi
+
+        # Ask the question (not using "read -p" as it uses stderr not stdout)
+        echo -n "  [?] $1 [$prompt] "
+
+        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+        read reply < /dev/tty
+
+        # Default?
+        if [[ -z "$reply" ]]; then
+          reply=$default
+        fi
+
+        # Check if the reply is valid
+        case "$reply" in
+          Y*|y*) return 0 ;;
+          N*|n*) return 1 ;;
+        esac
+      done
+  fi
 }
 
 # Usage _hasSudo
