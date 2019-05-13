@@ -25,7 +25,7 @@ LOG_FILE="${LOG_DIRECTORY}/"$(date +%Y-%m-%d).log
 # app versions and other useful shortcuts
 SDKMAN_URL="https://get.sdkman.io"
 JAVA_VERSION_ARCH="jdk8"
-JAVA_VERSION_UBUNTU="openjdk-8-jdk"
+JAVA_VERSION_DEBIAN="openjdk-8-jdk"
 RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
 RUBY_VERSION="2.6.1"
 RAILS_VERSION="5.2.2"
@@ -161,6 +161,7 @@ _installPackage() {
   PACKAGE=$1
 
   _isOnline
+  _hasSudo
   _outputMessage "Trying to install $PACKAGE"
 
   case $(_getLinuxVersion) in
@@ -192,4 +193,15 @@ _isOnline() {
   else
     _outputMessage "Skipping internet connection check"
   fi
+}
+
+# display header message
+#
+# $1 - message
+_writeHeader(){
+	local h="$@"
+  
+	echo "---------------------------------------------------------------"
+	echo "     ${h}"
+	echo "---------------------------------------------------------------"
 }

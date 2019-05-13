@@ -11,15 +11,30 @@
 # shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started AWS configuration script $(basename "$0")"
+_writeHeader "AWS CLI and EB CLI Setup"
 
 if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install Python 3 and PIP)" Y; then
-    if [[ $(which python3) == "/usr/bin/python3" ]]; then
-      _outputMessage "Skipping installing Python as there's already an installed version: $(python --version 2>&1 | head -n 1)"
+    if [[ ${CIRCLECI} ]]; then
+      _outputMessage "Skipping sudo check for circleci"
+    else
+      _hasSudo
+
+      # keep existing `sudo` timestamp until the script is completed
+      while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+    fi
+
+    if [[ $(which python3) =~ "/usr/bin/python" ]]; then
+      _outputMessage "Skipping installing Python as there's already an installed version: $(python3 --version 2>&1 | head -n 1)"
     else
       _outputMessage "Installing Python 3"
-      _installPackage python3
-      outputMessage "Python 3 successfully installed to: $(python --version 2>&1 | head -n 1)"
+      cd /tmp
+      wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tar.xz
+      tar -xf Python-3.7.3.tar.xz
+      cd Python-3.7.3
+      ./configure --enable-optimizations
+      make -j 8
+      sudo make altinstall
+      outputMessage "Python 3 successfully installed to: $(python3 --version 2>&1 | head -n 1)"
     fi
 
     if [[ $(which pip) == "/usr/bin/pip" ]]; then

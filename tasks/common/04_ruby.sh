@@ -10,19 +10,9 @@
 # shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started ruby on rails installation script $(basename "$0")"
+_writeHeader "Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION Setup"
 
-if [[ ${CIRCLECI} ]]; then
-  _outputMessage "Skipping sudo check for circleci"
-else
-  _hasSudo
-
-  # keep existing `sudo` timestamp until the script is completed
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
-fi
-
-
-if _ask "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" Y; then
+if _ask "Do you wish to install Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION?" Y; then
   if [[ ! -e "$HOME/.rbenv/plugins" ]]; then
     mkdir -p "$HOME"/.rbenv/plugins
   fi

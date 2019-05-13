@@ -14,6 +14,8 @@
 GLOBAL_GITIGNORE="$HOME/.gitignore"
 SSH_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
+_writeHeader "git Basics Setup"
+
 _outputMessage "Started git configuration script $(basename "$0")"
 
 if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
