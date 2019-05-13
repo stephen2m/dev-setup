@@ -15,6 +15,7 @@ _outputMessage "Started OS init script $(basename "$0")"
 
 if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"
+  apt update -y
   apt install -y sudo
 else
   _hasSudo
