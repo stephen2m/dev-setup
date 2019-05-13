@@ -144,7 +144,7 @@ _hasSudo() {
   if [[ ${isRoot} = 0 ]]; then
     _errorExit "Please run scripts as a normal user and not as root"
   fi
-  if [[ "$EUID" != 0 ]]; then
+  if ! sudo -n true 2>/dev/null; then
     # prompt for password and elevate privilege
     printf "\nPlease provide your root password to allow this script to work as intended\n"
     sudo -v
@@ -161,14 +161,13 @@ _installPackage() {
   PACKAGE=$1
 
   _isOnline
+  _outputMessage "Trying to install $PACKAGE"
 
   case $(_getLinuxVersion) in
     arch)
-      _outputMessage "Installing $PACKAGE"
       yay -S --noconfirm --needed --overwrite '*' "${PACKAGE}"
       ;;
     debian)
-      _outputMessage "Installing $PACKAGE"
       sudo apt install -y "${PACKAGE}"
       ;;
     *)

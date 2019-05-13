@@ -30,6 +30,6 @@ sudo apt install -y git xclip unzip zip software-properties-common gcc build-ess
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
-sudo grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" >> /etc/profile
+grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" | sudo tee -a /etc/profile > /dev/null
 
 _scriptCompletedMessage

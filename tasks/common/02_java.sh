@@ -39,10 +39,12 @@ if [[  ! ${CIRCLECI} ]]; then
     fi
 fi
 
-if _ask "Do you wish to install sdkman?" Y; then
-  curl -s ${SDKMAN_URL} | bash
-  if [[ ${CIRCLECI} != true ]]; then
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
+if [[ ! $(sdk version) =~ "SDKMAN" ]]; then
+  if _ask "Do you wish to install sdkman?" Y; then
+    curl -s ${SDKMAN_URL} | bash
+    if [[ ${CIRCLECI} != true ]]; then
+      source "$HOME/.sdkman/bin/sdkman-init.sh"
+    fi
   fi
 fi
 
