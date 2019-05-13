@@ -22,16 +22,12 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-answer=$(_promptUser "Do you wish to install the Heroku CLI client?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+if _ask "Do you wish to install the Heroku CLI client?" Y; then
   _outputMessage "Installing the Heroku CLI"
   _installPackage heroku-cli-nightly
 fi
 
-answer=$(_promptUser "Do you wish to install Docker?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+if _ask "Do you wish to install Docker?" Y; then
   sudo tee /etc/modules-load.d/loop.conf <<< "loop"
   sudo modprobe loop
   _installPackage docker docker-compose
@@ -39,9 +35,8 @@ if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   sudo gpasswd -a "$USER" docker
 fi
 
-answer=$(_promptUser "Do you wish to install Virtual Box?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+
+if _ask "Do you wish to install Virtual Box?" Y; then
   kernelVersion=$(uname -r | awk -F. '{print $1$2}')
   _installPackage virtualbox
   _installPackage linux"${kernelVersion}"-virtualbox-host-modules
@@ -50,15 +45,12 @@ if [[ ${userResponse} =~ ^[Yy]$ ]]; then
   sudo gpasswd -a "$USER" vboxusers
 fi
 
-answer=$(_promptUser "Do you wish to install Kubernetes binaries?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+if _ask "Do you wish to install Kubernetes binaries?" Y; then
   _installPackage kubectl-bin
 fi
 
-answer=$(_promptUser "Do you wish to install Google Cloud SDK binaries?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+
+if _ask "Do you wish to install Google Cloud SDK binaries?" Y; then
   _installPackage google-cloud-sdk
 fi
 

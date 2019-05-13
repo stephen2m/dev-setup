@@ -26,9 +26,8 @@ _outputMessage "Update system packages"
 sudo pacman -Syyu
 _outputMessage "Done updating system packages"
 
-answer=$(_promptUser "Do you wish to speed up compiling packages by changing makeflags and compression settings?" true)
-userResponse=${answer}
-if [[ ${userResponse} =~ ^[Yy]$ ]]; then
+
+if _ask "Do you wish to speed up compiling packages by changing makeflags and compression settings?" Y; then
   numberOfCores=$(grep -c ^processor /proc/cpuinfo)
 
   case ${numberOfCores} in
