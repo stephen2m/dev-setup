@@ -23,20 +23,18 @@ fi
 
 _outputMessage "Installing NPM and related helpers"
 
-if [[ $(_ask "Do you wish to install npm?" "Y") ]]; then
+if _ask "Do you wish to install npm?" Y; then
   curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
   export NVM_DIR="$HOME/.nvm"
   # shellcheck disable=SC1090
   [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
-  if [[ ${CIRCLECI} ]]; then
-    _outputMessage "Trying to install NPM packages without sudo - circleci tweak"
-    nvm install node
-    nvm use $(node -v)
-    nvm alias default $(node -v)
-    npm install -g @angular/cli tslint
-  else
-    sudo npm install -g @angular/cli tslint
-  fi
+  nvm install node
+  nvm use $(node -v)
+  nvm alias default $(node -v)
+  _outputMessage "Installed node $(node -v) and NPM v$(npm -v) successfully."
+  _outputMessage "Your default node version is node $(node -v)."
+  npm install -g @angular/cli tslint && \
+    _outputMessage "Installed Angular CLI and tslint successfully"
 fi
 
 _scriptCompletedMessage

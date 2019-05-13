@@ -39,14 +39,14 @@ if [[  ! ${CIRCLECI} ]]; then
     fi
 fi
 
-if [[ $(_ask "Do you wish to install sdkman?" "Y") ]]; then
+if _ask "Do you wish to install sdkman?" Y; then
   curl -s ${SDKMAN_URL} | bash
   if [[ ${CIRCLECI} != true ]]; then
     source "$HOME/.sdkman/bin/sdkman-init.sh"
   fi
 fi
 
-if [[ $(_ask "Do you wish to install springboot, gradle and groovy?" "Y") ]]; then
+if _ask "Do you wish to install springboot, gradle and groovy?" Y; then
   sdk install springboot
   sdk install gradle
   sdk install groovy

@@ -3,7 +3,7 @@
 # shellcheck disable=SC1090
 . "$(dirname "$0")/common.sh"
 
-_outputMessage "Started script $(basename "$0") for $(_getLinuxVersion)"
+_outputMessage "Started script $(basename "$0") for a $(_getLinuxVersion)-based distro"
 # shellcheck disable=SC2034
 start_sec=$(/bin/date +%s.%N)
 

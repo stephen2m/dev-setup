@@ -23,14 +23,13 @@ else
 fi
 
 _outputMessage "Updating system packages"
-apt update -y
+sudo apt update -y
 _outputMessage "Done updating system packages"
-apt install -y sudo
 
 sudo apt install -y git xclip unzip zip software-properties-common gcc build-essential libssl-dev libffi-dev iputils-ping curl wget asciinema
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
-grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" >> /etc/profile
+sudo grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" >> /etc/profile
 
 _scriptCompletedMessage

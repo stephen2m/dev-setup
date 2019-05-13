@@ -22,7 +22,7 @@ else
 fi
 
 
-if [[ $(_ask "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" "Y") ]]; then
+if _ask "Do you wish to install Ruby $RUBY_VERSION and Rails $RAILS_VERSION?" Y; then
   if [[ ! -e "$HOME/.rbenv/plugins" ]]; then
     mkdir -p "$HOME"/.rbenv/plugins
   fi

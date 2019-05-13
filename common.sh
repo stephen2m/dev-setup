@@ -141,7 +141,7 @@ _ask() {
 # Halts all activity if running as root
 _hasSudo() {
   isRoot=$(id -u)
-  if [[ ${isRoot} ]]; then
+  if [[ ${isRoot} = 0 ]]; then
     _errorExit "Please run scripts as a normal user and not as root"
   fi
   if [[ "$EUID" != 0 ]]; then
