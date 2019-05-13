@@ -4,12 +4,14 @@
 ################################################################################
 # Name:            01_osprep.sh
 # Usage:           n/a
-# Description:     Installs basic packages needed for an Ubuntu environment
+# Description:     Installs basic packages needed for a debian environment
 ################################################################################
 ################################################################################
 
 # shellcheck disable=SC1091
 . common.sh
+
+_writeHeader "Debian Environment Bootstrapping"
 
 _outputMessage "Started OS init script $(basename "$0")"
 
