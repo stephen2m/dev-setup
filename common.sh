@@ -17,6 +17,8 @@ set -o errexit
 # Normally, pipelines only return a failure if the last command errors
 set -o pipefail
 
+export DEBIAN_FRONTEND=noninteractive
+
 LOG_DIRECTORY='logs'
 LOG_FILE="${LOG_DIRECTORY}/"$(date +%Y-%m-%d).log
 
@@ -107,7 +109,7 @@ _ask() {
 
   local prompt default reply
 
-  if [[ ${CIRCLE} ]]; then
+  if [[ ${CIRCLECI} ]]; then
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;

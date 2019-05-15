@@ -27,7 +27,7 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
 fi
 
 if [[ ! ${CIRCLECI} ]]; then
-    if _ask "Do you wish to initialize your gitconfig?" "Y"; then
+    if _ask "Do you wish to initialize your gitconfig?" Y; then
       echo -n "Enter your git name: "
       read -r git_name
 
