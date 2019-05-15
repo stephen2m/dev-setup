@@ -34,7 +34,7 @@ if [[ $(_getLinuxVersion) == "arch" ]]; then
   echo kernel.unprivileged_userns_clone = 1 | sudo tee /etc/sysctl.d/00-local-userns.conf
 
   # only install TLP and thermald if script is running on a laptop
-  if [[ -f /sys/module/battery/initstate ] || [ -d /proc/acpi/battery/BAT* ]]; then
+  if [[ -f /sys/module/battery/initstate || -d /proc/acpi/battery/BAT* ]]; then
     _outputMessage "Installing TLP and thermald for better power management"
     _installPackage tlp
     sudo systemctl enable tlp
