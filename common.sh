@@ -109,7 +109,7 @@ _ask() {
 
   local prompt default reply
 
-  if [[ ${CIRCLECI} ]]; then
+  if [[ ${CIRCLECI} || ${AUTO_ANSWER} ]]; then
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;

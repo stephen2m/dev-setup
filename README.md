@@ -23,6 +23,8 @@ Simplify & automate setting up the following:
 1. **Scripts tested on Manjaro Deepin 18.0.2 and Ubuntu 18.04.2 Bionic Beaver**
 1. **For directories with more than one file, they'll execute based on their numbering, starting from `01_*.sh`**
 3. If you fancy using optional githooks, use [my custom githooks](https://github.com/stephen2m/githooks) by running `git submodule update --init && git config core.hooksPath .githooks`
+4. Most yes/no prompts can be disabled by setting an environment variable `AUTO_ANSWER` with the value `true`.
+   This however doesn't cover any other user input eg git name & email
 
 ### Section 2: Brief Overview of the Scripts 
 

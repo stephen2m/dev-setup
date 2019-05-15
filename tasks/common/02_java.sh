@@ -29,28 +29,24 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-if [[  ! ${CIRCLECI} ]]; then
-    _outputMessage "Installing JAVA and related helpers"
+ _outputMessage "Installing JAVA and related helpers"
 
-    if [[ $(which java) == "/usr/bin/java" ]]; then
-      _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
-    else
-      if _ask "Do you wish to install $JAVA_VERSION?" Y; then
-        _installPackage ${JAVA_VERSION}
-      fi
-    fi
+if [[ $(which java) == "/usr/bin/java" ]]; then
+  _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
+else
+  if _ask "Do you wish to install $JAVA_VERSION?" Y; then
+    _installPackage ${JAVA_VERSION}
+  fi
 fi
 
 if [[ ! $(sdk version) =~ "SDKMAN" ]]; then
   if _ask "Do you wish to install sdkman?" Y; then
     curl -s ${SDKMAN_URL} | bash
-    if [[ ${CIRCLECI} != true ]]; then
-      source "$HOME/.sdkman/bin/sdkman-init.sh"
-    fi
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
   fi
 fi
 
-if _ask "Do you wish to install springboot, gradle and groovy?" Y; then
+if _ask "Do you wish to install springboot, gradle and groovy?" Y ]]; then
   sdk install springboot
   sdk install gradle
   sdk install groovy

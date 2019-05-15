@@ -64,12 +64,12 @@ if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install 
       fi
     fi
 
-    if _ask "Do you wish to install the EB CLI" Y; then
-      # for any issues, refer to https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html#eb-cli3-install.scripts
-      git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
-      .\aws-elastic-beanstalk-cli-setup\scripts\bundled_installer
-      _outputMessage "EB CLI successfully installed"
-    fi
+#    if _ask "Do you wish to install the EB CLI" Y; then
+#      # for any issues, refer to https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html#eb-cli3-install.scripts
+#      git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
+#      bash aws-elastic-beanstalk-cli-setup/scripts/bundled_installer
+#      _outputMessage "EB CLI successfully installed"
+#    fi
 fi
 
 _scriptCompletedMessage ${start_sec}
