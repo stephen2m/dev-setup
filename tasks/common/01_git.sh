@@ -55,7 +55,7 @@ fi
 if _ask "Do you wish to enable a better looking git log?" Y; then
   git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
   git config --global alias.lg-ascii "log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit --date=relative"
-  _outputMessage "Enabled successfully.  The aliases "git lg" and "git lg-ascii" are now available"
+  _outputMessage "Enabled successfully. The aliases 'git lg' and 'git lg-ascii' are now available"
 fi
 
 _scriptCompletedMessage

@@ -33,7 +33,7 @@ if [[  ! ${CIRCLECI} ]]; then
     if [[ $(which java) == "/usr/bin/java" ]]; then
       _outputMessage "Skipping installing JAVA as there's already an installed version: $(java -version 2>&1 | head -n 1)"
     else
-      if _ask "Do you wish to install $JAVA_VERSION?" Y then
+      if _ask "Do you wish to install $JAVA_VERSION?" Y; then
         _installPackage ${JAVA_VERSION}
       fi
     fi

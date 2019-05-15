@@ -41,13 +41,17 @@ if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install 
       _outputMessage "Skipping installing PIP as there's already an installed version: $(pip --version 2>&1 | head -n 1)"
     else
       _outputMessage "Installing PIP"
+      if [[ $(_getLinuxVersion) == "debian" ]]; then
+        _installPackage python3-distutils
+        _installPackage python3-testresources
+      fi
       wget -q https://bootstrap.pypa.io/get-pip.py
-      python get-pip.py
+      sudo python3 get-pip.py
       _outputMessage "PIP successfully installed to: $(pip --version 2>&1 | head -n 1)"
     fi
 
     if _ask "Do you wish to install the AWS CLI" Y; then
-      pip install awscli --upgrade --user
+      pip3 install awscli --upgrade --user
       _outputMessage "AWS CLI successfully installed"
     fi
 
@@ -59,7 +63,7 @@ if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install 
     fi
 
     if _ask "Do you wish to install the EB CLI" Y; then
-      #  for any issues, refer to https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html#eb-cli3-install.scripts
+      # for any issues, refer to https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/eb-cli3-install.html#eb-cli3-install.scripts
       git clone https://github.com/aws/aws-elastic-beanstalk-cli-setup.git
       .\aws-elastic-beanstalk-cli-setup\scripts\bundled_installer
       _outputMessage "EB CLI successfully installed"
