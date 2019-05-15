@@ -7,6 +7,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -40,4 +42,4 @@ if _ask "Do you wish to install Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION?" 
   rbenv rehash
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}

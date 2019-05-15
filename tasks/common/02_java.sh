@@ -7,6 +7,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -54,4 +56,4 @@ if _ask "Do you wish to install springboot, gradle and groovy?" Y; then
   sdk install groovy
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}

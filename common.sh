@@ -17,8 +17,6 @@ set -o errexit
 # Normally, pipelines only return a failure if the last command errors
 set -o pipefail
 
-export DEBIAN_FRONTEND=noninteractive
-
 LOG_DIRECTORY='logs'
 LOG_FILE="${LOG_DIRECTORY}/"$(date +%Y-%m-%d).log
 
@@ -55,10 +53,16 @@ _outputMessage() {
 # Usage: _scriptCompletedMessage
 #
 # Prints some finishing statistics
-# Currently shows how long a script took to run
-# Uses the $start_sec script-level variable to determine this
+# Currently shows how long a script took to run based on when it started
 _scriptCompletedMessage() {
+  if [[ "$#" -ne 1 ]]; then
+    printf "$date: [FATAL] Function call expected 1 (one) parameter.  Usage: _scriptCompletedMessage <start_time_in_sec>"
+    exit 1
+  fi
+
+  local start_sec=$1
   local end_sec=$(/bin/date +%s.%N)
+
   # shellcheck disable=SC2154
   elapsed_seconds=$(echo "$end_sec" "$start_sec" | awk '{ print $1 - $2 }')
 
@@ -70,12 +74,13 @@ _scriptCompletedMessage() {
 # Writes <message> to screen and logfile as a "fatal"
 # And immediately exits the currently running script
 _errorExit() {
-  local date=$(/bin/date "+%F %T")
-  local message=$1
   if [[ "$#" -ne 1 ]]; then
     printf "$date: [FATAL] Function call expected 1 (one) parameter.  Usage: _errorExit <message>"
     exit 1
   fi
+
+  local date=$(/bin/date "+%F %T")
+  local message=$1
 
   printf "$date: [FATAL] $message\n" "$@" | tee -a ${LOG_FILE}
   exit 1
@@ -95,6 +100,11 @@ _getLinuxVersion() {
 #
 # Displays a yes/no prompt, and only allows input of Y or N
 _ask() {
+  if [[ "$#" -ne 2 ]]; then
+    printf "$date: [FATAL] Function call expected 2 (two) parameters.  Usage: _ask <question> <Y/N>"
+    exit 1
+  fi
+
   local prompt default reply
 
   if [[ ${CIRCLE} ]]; then
@@ -137,7 +147,7 @@ _ask() {
 
 # Usage _hasSudo
 #
-# Ensure user has sudo access and also that the script is not running as root
+# Ensure user has root access and also that the script is not running as root
 # Halts all activity if running as root
 _hasSudo() {
   isRoot=$(id -u)

@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -58,4 +60,4 @@ if _ask "Do you wish to enable a better looking git log?" Y; then
   _outputMessage "Enabled successfully. The aliases 'git lg' and 'git lg-ascii' are now available"
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}

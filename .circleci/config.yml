@@ -18,27 +18,7 @@ jobs:
       - run:
           name: Provision OS
           command: |
-            bash tasks/debian/01_osprep.sh
-#      - run:
-#          name: Setup git
-#          command: |
-#            bash tasks/common/01_git.sh
-#      - run:
-#          name: Setup java
-#          command: |
-#            bash tasks/common/02_java.sh
-#      - run:
-#          name: Setup npm
-#          command: |
-#            bash tasks/common/03_npm.sh
-#      - run:
-#          name: Setup ruby
-#          command: |
-#            bash tasks/common/04_ruby.sh
-#      - run:
-#          name: Setup AWS tools
-#          command: |
-#            bash tasks/common/05_aws.sh
+            bash setup.sh
 
       - store_artifacts:
           path: logs

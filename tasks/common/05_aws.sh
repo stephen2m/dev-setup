@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -69,3 +71,5 @@ if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install 
       _outputMessage "EB CLI successfully installed"
     fi
 fi
+
+_scriptCompletedMessage ${start_sec}

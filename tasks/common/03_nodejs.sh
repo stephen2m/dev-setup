@@ -7,6 +7,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -33,4 +35,4 @@ else
   fi
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}

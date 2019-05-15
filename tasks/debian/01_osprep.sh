@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -36,4 +38,4 @@ LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
 grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" | sudo tee -a /etc/profile > /dev/null
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}

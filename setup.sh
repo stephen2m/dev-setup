@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1090
 . "$(dirname "$0")/common.sh"
 
 _outputMessage "Started script $(basename "$0") for a $(_getLinuxVersion)-based distro"
-# shellcheck disable=SC2034
-start_sec=$(/bin/date +%s.%N)
 
 case $(_getLinuxVersion) in
   arch)
@@ -30,4 +30,4 @@ do
   bash "$file" -H || break
 done
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}
