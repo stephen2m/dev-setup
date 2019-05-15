@@ -46,7 +46,7 @@ if [[ ! $(sdk version) =~ "SDKMAN" ]]; then
   fi
 fi
 
-if _ask "Do you wish to install springboot, gradle and groovy?" Y ]]; then
+if _ask "Do you wish to install springboot, gradle and groovy?" Y; then
   sdk install springboot
   sdk install gradle
   sdk install groovy

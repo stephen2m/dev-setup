@@ -35,16 +35,16 @@ RAILS_VERSION="5.2.2"
 # Outputs <message> to the terminal
 # And also logs to the current LOG_FILE value
 _outputMessage() {
+  if [[ "$#" -ne 1 ]]; then
+    _errorExit "Function _outputMessage expected 1 (one) parameter but got $#: '$*'.  Usage: _outputMessage <message>"
+  fi
+
   if [[ ! -d "$LOG_DIRECTORY" ]]; then
     mkdir ${LOG_DIRECTORY}
   fi
 
   if [[ ! -e "$LOG_FILE" ]]; then
     touch "${LOG_FILE}"
-  fi
-
-  if [[ "$#" -ne 1 ]]; then
-    _errorExit "Function call expected 1 (one) parameter.  Usage: _outputMessage <message>"
   fi
 
   local fmt="$1"; shift
@@ -58,8 +58,7 @@ _outputMessage() {
 # Currently shows how long a script took to run based on when it started
 _scriptCompletedMessage() {
   if [[ "$#" -ne 1 ]]; then
-    printf "$date: [FATAL] Function call expected 1 (one) parameter.  Usage: _scriptCompletedMessage <start_time_in_sec>"
-    exit 1
+    _errorExit "Function _scriptCompletedMessage expected 1 (one) parameter but got $#: '$*'.  Usage: _scriptCompletedMessage <start_time_in_sec>"
   fi
 
   local start_sec=$1
@@ -77,7 +76,7 @@ _scriptCompletedMessage() {
 # And immediately exits the currently running script
 _errorExit() {
   if [[ "$#" -ne 1 ]]; then
-    printf "$date: [FATAL] Function call expected 1 (one) parameter.  Usage: _errorExit <message>"
+    _outputMessage "[FATAL] Function _errorExit expected 1 (one) parameter but got $#: '$*'.  Usage: _errorExit <message>"
     exit 1
   fi
 
@@ -103,8 +102,7 @@ _getLinuxVersion() {
 # Displays a yes/no prompt, and only allows input of Y or N
 _ask() {
   if [[ "$#" -ne 2 ]]; then
-    printf "$date: [FATAL] Function call expected 2 (two) parameters.  Usage: _ask <question> <Y/N>"
-    exit 1
+    _errorExit "Function _ask expected 2 (two) parameters but got $#: '$*'.  Usage: _ask <question> <Y/N>"
   fi
 
   local prompt default reply
@@ -168,7 +166,7 @@ _hasSudo() {
 # Based on the OS in use, install the specified package
 _installPackage() {
   if [[ "$#" -ne 1 ]]; then
-    _errorExit "Expected 1 (one) parameter.  Usage: _installPackage '<package-name>'"
+    _errorExit "Function _installPackage expected 1 (one) parameter but got $#: '$*'.  Usage: _installPackage '<package-name>'"
   fi
   PACKAGE=$1
 
@@ -207,7 +205,7 @@ _isOnline() {
   fi
 }
 
-# display header message
+# Display header message, mostly used for a nice separator between "execution phases"
 #
 # $1 - message
 _writeHeader(){
