@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -22,7 +24,7 @@ else
   while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 fi
 
-if [[ $(_getLinuxVersion) =~ ^[manjaro]$ ]]; then
+if [[ $(_getLinuxVersion) == "arch" ]]; then
   # https://github.com/guard/listen/wiki/Increasing-the-amount-of-inotify-watchers
   # https://stackoverflow.com/questions/535768/what-is-a-reasonable-amount-of-inotify-watches-with-linux
   _outputMessage "Increase inotify watches to half the value of the max possible value ie 524288/2 => 262144"
@@ -31,16 +33,20 @@ if [[ $(_getLinuxVersion) =~ ^[manjaro]$ ]]; then
   _outoutMessage "Enable user namespaces"
   echo kernel.unprivileged_userns_clone = 1 | sudo tee /etc/sysctl.d/00-local-userns.conf
 
-  _outputMessage "Adding TLP, thermald and cpupower for better power & CPU management"
-  _installPackage tlp
-  sudo systemctl enable tlp
-  sudo systemctl enable tlp-sleep.service
+  # only install TLP and thermald if script is running on a laptop
+  if [[ -f /sys/module/battery/initstate ] || [ -d /proc/acpi/battery/BAT* ]]; then
+    _outputMessage "Installing TLP and thermald for better power management"
+    _installPackage tlp
+    sudo systemctl enable tlp
+    sudo systemctl enable tlp-sleep.service
 
-  _installPackage thermald
-  sudo systemctl enable thermald
+    _installPackage thermald
+    sudo systemctl enable thermald
+  fi
 
+  _outputMessage "Installing cpupower to enable scaling CPU frequency"
   _installPackage cpupower
   sudo systemctl enable cpupower
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage $start_sec

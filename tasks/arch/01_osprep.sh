@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -65,4 +67,4 @@ fi
 # that have vulnerabilities and a fix has been made
 sudo pacman -S --noconfirm --needed git xclip base-devel yay bind-tools zip unzip wget curl asciinema netcat lsd arch-audit
 
-_scriptCompletedMessage
+_scriptCompletedMessage $start_sec
