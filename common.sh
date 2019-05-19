@@ -39,6 +39,22 @@ _outputMessage() {
     _errorExit "Function _outputMessage expected 1 (one) parameter but got $#: '$*'.  Usage: _outputMessage <message>"
   fi
 
+  local fmt="$1"; shift
+  date=$(/bin/date "+%F %T")
+  outputMessage="$fmt\n" "$@"
+  _logMessage $outputMessage
+  printf "$date: $outputMessage"
+}
+
+
+# Usage _logMessage <message>
+#
+# Append string to the end of the timestamped log file
+_logMessage() {
+  if [[ "$#" -ne 1 ]]; then
+    _errorExit "Function _logMessage expected 1 (one) parameter but got $#: '$*'.  Usage: _logMessage <message>"
+  fi
+
   if [[ ! -d "$LOG_DIRECTORY" ]]; then
     mkdir ${LOG_DIRECTORY}
   fi
@@ -47,9 +63,9 @@ _outputMessage() {
     touch "${LOG_FILE}"
   fi
 
-  local fmt="$1"; shift
   date=$(/bin/date "+%F %T")
-  printf "$date: $fmt\n" "$@" | tee -a ${LOG_FILE}
+
+  echo -n "\n$date: $1" >> $LOG_FILE
 }
 
 # Usage: _scriptCompletedMessage
@@ -105,7 +121,7 @@ _ask() {
     _errorExit "Function _ask expected 2 (two) parameters but got $#: '$*'.  Usage: _ask <question> <Y/N>"
   fi
 
-  _outputMessage "User prompt: $*"
+  _logMessage " [?] $1"
 
   local prompt default reply
 
@@ -116,10 +132,10 @@ _ask() {
     esac
   else
       while true; do
-        if [[ "${2:-}" = "Y" || "${2:-}" = "y" ]]; then
+        if [[ "${2}" =~ "^[yY]" ]]; then
           prompt="Y/n"
           default=Y
-        elif [[ "${2:-}" = "N" || "${2:-}" = "n" ]]; then
+        elif [[ "${2}" =~ "^[nN]" ]]; then
           prompt="y/N"
           default=N
         else
