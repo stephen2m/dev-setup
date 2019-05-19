@@ -65,7 +65,7 @@ _logMessage() {
 
   date=$(/bin/date "+%F %T")
 
-  printf "$date: $1" | tee -a $LOG_FILE
+  printf "$date: $1" >> $LOG_FILE 2>&1
 }
 
 # Usage: _scriptCompletedMessage
@@ -121,7 +121,7 @@ _ask() {
     _errorExit "Function _ask expected 2 (two) parameters but got $#: '$*'.  Usage: _ask <question> <Y/N>"
   fi
 
-  _logMessage " [?] $1"
+  _logMessage " [?] $*\n"
 
   local prompt default reply
 
@@ -132,16 +132,18 @@ _ask() {
     esac
   else
       while true; do
-        if [[ "${2}" =~ "^[yY]" ]]; then
+        shopt -s nocasematch
+        if [[ "${2}" =~ "y" ]]; then
           prompt="Y/n"
           default=Y
-        elif [[ "${2}" =~ "^[nN]" ]]; then
+        elif [[ "${2}" =~ "n" ]]; then
           prompt="y/N"
           default=N
         else
           prompt="y/n"
           default=
         fi
+        shopt -u nocasematch
 
         # Ask the question (not using "read -p" as it uses stderr not stdout)
         echo -n "  [?] $1 [$prompt] "
