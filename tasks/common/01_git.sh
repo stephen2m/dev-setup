@@ -16,9 +16,11 @@ start_sec=$(/bin/date +%s.%N)
 GLOBAL_GITIGNORE="$HOME/.gitignore"
 SSH_KEY_PUB="$HOME/.ssh/id_rsa.pub"
 
-_writeHeader "git Basics Setup"
+logMessage="git basics"
 
-_outputMessage "Started git configuration script $(basename "$0")"
+_writeHeader "$logMessage"
+
+_outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  _outputMessage "Initializing global gitignore and update gitconfig"

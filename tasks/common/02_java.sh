@@ -18,7 +18,11 @@ else
   JAVA_VERSION=${JAVA_VERSION_DEBIAN}
 fi
 
-_writeHeader "Java $JAVA_VERSION, sdkman, groovy, and gradle Setup"
+logMessage="java $JAVA_VERSION, sdkman, groovy, and gradle setup"
+
+_writeHeader "$logMessage"
+
+_outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"

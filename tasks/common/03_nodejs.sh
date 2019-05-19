@@ -12,7 +12,11 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1091
 . common.sh
 
-_writeHeader "NodeJS and NPM Setup"
+logMessage="NodeJS and NPM setup"
+
+_writeHeader "$logMessage"
+
+_outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ ! ${CIRCLECI} ]]; then
   if [[ $(npm --version) && $(node --version) ]]; then

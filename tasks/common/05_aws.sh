@@ -13,7 +13,11 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1091
 . common.sh
 
-_writeHeader "AWS CLI and EB CLI Setup"
+logMessage="AWS CLI and EB CLI Setup"
+
+_writeHeader "$logMessage"
+
+_outputMessage "$logMessage"
 
 if _ask "Do you wish to install the AWS CLI and EB CLI tools (will also install Python 3 and PIP)" Y; then
     if [[ ${CIRCLECI} ]]; then

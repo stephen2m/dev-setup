@@ -13,7 +13,11 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1091
 . common.sh
 
-_outputMessage "Started system tweaks script $(basename "$0")"
+logMessage="system tweaks"
+
+_writeHeader "$logMessage"
+
+_outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ $CIRCLECI = true ]]; then
   _outputMessage "Skipping sudo check for circleci"
@@ -32,21 +36,26 @@ if [[ $(_getLinuxVersion) == "arch" ]]; then
 
   _outoutMessage "Enable user namespaces"
   echo kernel.unprivileged_userns_clone = 1 | sudo tee /etc/sysctl.d/00-local-userns.conf
+fi
 
-  # only install TLP and thermald if script is running on a laptop
-  if [[ -f /sys/module/battery/initstate || -d /proc/acpi/battery/BAT* ]]; then
-    _outputMessage "Installing TLP and thermald for better power management"
-    _installPackage tlp
+# only install TLP and thermald if script is running on a laptop
+if [[ -f /sys/module/battery/initstate || -d /proc/acpi/battery/BAT* ]]; then
+  _outputMessage "Installing TLP and thermald for better power management"
+  _installPackage tlp
+  _installPackage thermald
+fi
+
+_outputMessage "Installing cpupower to enable scaling CPU frequency"
+_installPackage cpupower
+
+case $(_getLinuxVersion) in
+  arch)
     sudo systemctl enable tlp
     sudo systemctl enable tlp-sleep.service
-
-    _installPackage thermald
     sudo systemctl enable thermald
-  fi
-
-  _outputMessage "Installing cpupower to enable scaling CPU frequency"
-  _installPackage cpupower
-  sudo systemctl enable cpupower
-fi
+    sudo systemctl enable cpupower
+  debian)
+    # todo: find how to activate the packages
+esac
 
 _scriptCompletedMessage $start_sec

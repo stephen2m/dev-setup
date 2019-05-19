@@ -12,7 +12,11 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1091
 . common.sh
 
-_writeHeader "Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION Setup"
+logMessage="Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION setup"
+
+_writeHeader "$logMessage"
+
+_outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ ! ${CIRCLECI} ]]; then
   if _ask "Do you wish to install Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION?" Y ]]; then
