@@ -19,6 +19,8 @@ jobs:
           name: Provision OS
           command: |
             bash setup.sh
+          environment:
+            AUTO_ANSWER: yes
 
       - store_artifacts:
           path: logs

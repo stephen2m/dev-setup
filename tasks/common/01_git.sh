@@ -26,17 +26,17 @@ if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
-if [[ ! ${CIRCLECI} ]]; then
-    if _ask "Do you wish to initialize your gitconfig?" Y; then
-      echo -n "Enter your git name: "
-      read -r git_name
+if _ask "Do you wish to initialize your gitconfig?" Y; then
+  if [[ ! ${CIRCLECI} ]]; then
+    echo -n "Enter your git name: "
+    read -r git_name
 
-      echo -n "Enter your git email address: "
-      read -r git_email
+    echo -n "Enter your git email address: "
+    read -r git_email
+  fi
 
-      git config --global user.name ${git_name:="circleci"}
-      git config --global user.email ${git_email:="circleci@testing.com"}
-    fi
+  git config --global user.name ${git_name:="circleci"}
+  git config --global user.email ${git_email:="circleci@testing.com"}
 fi
 
 if [[ ! -f ${SSH_KEY_PUB} && ! ${CIRCLECI} ]]; then
