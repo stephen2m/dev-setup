@@ -42,7 +42,7 @@ _outputMessage() {
   local fmt="$1"; shift
   date=$(/bin/date "+%F %T")
   outputMessage="$fmt\n" "$@"
-  _logMessage $outputMessage
+  _logMessage "$outputMessage"
   printf "$date: $outputMessage"
 }
 
