@@ -65,7 +65,7 @@ _logMessage() {
 
   date=$(/bin/date "+%F %T")
 
-  echo -e "$date: $1" >> $LOG_FILE
+  printf "$date: $1" | tee -a $LOG_FILE
 }
 
 # Usage: _scriptCompletedMessage
