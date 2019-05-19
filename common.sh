@@ -105,9 +105,11 @@ _ask() {
     _errorExit "Function _ask expected 2 (two) parameters but got $#: '$*'.  Usage: _ask <question> <Y/N>"
   fi
 
+  _outputMessage "User prompt: $*"
+
   local prompt default reply
 
-  if [[ ${CIRCLECI} || ${AUTO_ANSWER} ]]; then
+  if [[ ${AUTO_ANSWER} ]]; then
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
