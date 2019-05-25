@@ -59,7 +59,7 @@ if _ask "Do you wish to install Docker?" Y; then
     #sudo usermod -aG docker $(whoami)
   fi
   if [[ $(which docker) == "/usr/bin/docker" ]]; then
-    _outputMessage "Successfully installed VirtualBox"
+    _outputMessage "Successfully installed Docker"
   fi
 fi
 
