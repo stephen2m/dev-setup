@@ -55,43 +55,44 @@ if _ask "Do you wish to install Docker?" Y; then
   fi
 fi
 
-
-if _ask "Do you wish to install Virtual Box?" Y; then
-  if [[ $(_getLinuxVersion) == "arch" ]]; then
-    kernelVersion=$(uname -r | awk -F. '{print $1$2}')
-    _installPackage virtualbox
-    _installPackage linux"$kernelVersion"-virtualbox-host-modules
-    _installPackage linux"$kernelVersion"-virtualbox-guest-modules
-    _installPackage virtualbox-guest-iso
-    sudo modprobe vboxdrv
-    _installPackage virtualbox-ext-oracle
-    sudo gpasswd -a $(whoami) vboxusers
-  else
-    # add the GPG keys of the Oracle VirtualBox repository
-    wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-    # add the repository to the source list
-    sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
-    # update the package list and install
-    sudo apt update -y && _installPackage virtualbox-6.0
-    # install the extension pack
-    #wget https://download.virtualbox.org/virtualbox/6.0.0/Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
-    #sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
+if [[ ! ${CIRCLECI} ]]; then
+  if _ask "Do you wish to install Virtual Box?" Y; then
+    if [[ $(_getLinuxVersion) == "arch" ]]; then
+      kernelVersion=$(uname -r | awk -F. '{print $1$2}')
+      _installPackage virtualbox
+      _installPackage linux"$kernelVersion"-virtualbox-host-modules
+      _installPackage linux"$kernelVersion"-virtualbox-guest-modules
+      _installPackage virtualbox-guest-iso
+      sudo modprobe vboxdrv
+      _installPackage virtualbox-ext-oracle
+      sudo gpasswd -a $(whoami) vboxusers
+    else
+      # add the GPG keys of the Oracle VirtualBox repository
+      wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+      wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+      # add the repository to the source list
+      sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib"
+      # update the package list and install
+      sudo apt update -y && _installPackage virtualbox-6.0
+      # install the extension pack
+      #wget https://download.virtualbox.org/virtualbox/6.0.0/Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
+      #sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
+    fi
   fi
-fi
 
-if _ask "Do you wish to install Kubernetes binaries (kubeadm, kubelet and kubectl)?" Y; then
-  if [[ $(_getLinuxVersion) == "arch" ]]; then
-    _installPackage kubectl-bin
-  else
-    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a etc/apt/sources.list.d/kubernetes.list
-    sudo apt update -y
-    _installPackage kubelet
-    _installPackage kubeadm
-    _installPackage kubectl
-    sudo apt-mark hold kubelet kubeadm kubectl
-  fi  
+  if _ask "Do you wish to install Kubernetes binaries (kubeadm, kubelet and kubectl)?" Y; then
+    if [[ $(_getLinuxVersion) == "arch" ]]; then
+      _installPackage kubectl-bin
+    else
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a etc/apt/sources.list.d/kubernetes.list
+      sudo apt update -y
+      _installPackage kubelet
+      _installPackage kubeadm
+      _installPackage kubectl
+      sudo apt-mark hold kubelet kubeadm kubectl
+    fi  
+  fi
 fi
 
 _scriptCompletedMessage
