@@ -30,6 +30,9 @@ fi
 
 if _ask "Do you wish to install the Heroku CLI client?" Y; then
   curl https://cli-assets.heroku.com/install.sh | sh
+  if [[ $(which heroku) == "/usr/local/bin/heroku" ]]; then
+    _outputMessage "Successfully installed the Heroku CLI client"
+  fi
 fi
 
 if _ask "Do you wish to install Docker?" Y; then
@@ -54,6 +57,9 @@ if _ask "Do you wish to install Docker?" Y; then
     # allow non-root users to run Docker containers
     #[ $(getent group docker) ] || sudo groupadd docker
     #sudo usermod -aG docker $(whoami)
+  fi
+  if [[ $(which docker) == "/usr/bin/docker" ]]; then
+    _outputMessage "Successfully installed VirtualBox"
   fi
 fi
 
@@ -80,6 +86,9 @@ if [[ ! ${CIRCLECI} ]]; then
       #wget https://download.virtualbox.org/virtualbox/6.0.0/Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
       #sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
     fi
+    if [[ $(which virtualbox) == "/usr/bin/virtualbox" ]]; then
+      _outputMessage "Successfully installed VirtualBox"
+    fi
   fi
 
   if _ask "Do you wish to install Kubernetes binaries (kubeadm, kubelet and kubectl)?" Y; then
@@ -94,6 +103,7 @@ if [[ ! ${CIRCLECI} ]]; then
       _installPackage kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
     fi  
+    _outputMessage "Successfully installed Kubernetes binaries"
   fi
 fi
 
