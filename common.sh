@@ -189,23 +189,24 @@ _installPackage() {
   if [[ "$#" -ne 1 ]]; then
     _errorExit "Function _installPackage expected 1 (one) parameter but got $#: '$*'.  Usage: _installPackage '<package-name>'"
   fi
-  PACKAGE=$1
 
   _isOnline
   _hasSudo
-  _outputMessage "Trying to install $PACKAGE"
+  _outputMessage "Trying to install $1"
 
   case $(_getLinuxVersion) in
     arch)
-      yay -S --noconfirm --needed --overwrite '*' "${PACKAGE}"
+      yay -S --noconfirm --needed --overwrite '*' "${1}"
       ;;
     debian)
-      sudo apt install -y "${PACKAGE}"
+      sudo apt install -y "${1}"
       ;;
     *)
-      _errorExit "Could not determine OS/distro in use to install $PACKAGE. Parser found $(_getLinuxVersion)"
+      _errorExit "Could not determine OS/distro in use to install $1. Parser found $(_getLinuxVersion)"
       ;;
   esac
+
+  _outputMessage "Successfully installed $1"
 }
 
 # Usage _isOnline
