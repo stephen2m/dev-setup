@@ -137,7 +137,7 @@ _ask() {
   shopt -u nocasematch
 
   if [[ ${AUTO_ANSWER} ]]; then
-    _logMessage " [?] $1 [$prompt]: $reply\n"
+    _logMessage " [?] $1 [$prompt]: $default\n"
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
