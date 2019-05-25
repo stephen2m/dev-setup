@@ -123,27 +123,27 @@ _ask() {
 
   local prompt default reply
 
+  shopt -s nocasematch
+  if [[ "${2}" =~ "y" ]]; then
+    prompt="Y/n"
+    default=Y
+  elif [[ "${2}" =~ "n" ]]; then
+    prompt="y/N"
+    default=N
+  else
+    prompt="y/n"
+    default=
+  fi
+  shopt -u nocasematch
+
   if [[ ${AUTO_ANSWER} ]]; then
-    _logMessage " [?] $*: $2\n"
+    _logMessage " [?] $1 [$prompt]: $reply\n"
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
     esac
   else
       while true; do
-        shopt -s nocasematch
-        if [[ "${2}" =~ "y" ]]; then
-          prompt="Y/n"
-          default=Y
-        elif [[ "${2}" =~ "n" ]]; then
-          prompt="y/N"
-          default=N
-        else
-          prompt="y/n"
-          default=
-        fi
-        shopt -u nocasematch
-
         # Ask the question (not using "read -p" as it uses stderr not stdout)
         echo -n "  [?] $1 [$prompt] "
 
@@ -155,7 +155,7 @@ _ask() {
           reply=$default
         fi
 
-        _logMessage " [?] $1 $prompt: $reply\n"
+        _logMessage " [?] $1 [$prompt]: $reply\n"
 
         # Check if the reply is valid
         case "$reply" in
