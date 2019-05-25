@@ -77,6 +77,7 @@ if _ask "Do you wish to install Virtual Box?" Y; then
     # install the extension pack
     #wget https://download.virtualbox.org/virtualbox/6.0.0/Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
     #sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
+  fi
 fi
 
 if _ask "Do you wish to install Kubernetes binaries (kubeadm, kubelet and kubectl)?" Y; then
