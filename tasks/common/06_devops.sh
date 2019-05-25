@@ -8,6 +8,8 @@
 ################################################################################
 ################################################################################
 
+start_sec=$(/bin/date +%s.%N)
+
 # shellcheck disable=SC1091
 . common.sh
 
@@ -95,4 +97,4 @@ if [[ ! ${CIRCLECI} ]]; then
   fi
 fi
 
-_scriptCompletedMessage
+_scriptCompletedMessage ${start_sec}
