@@ -37,7 +37,7 @@ if _ask "Do you wish to install Docker?" Y; then
     _installPackage docker 
     _installPackage docker-compose
     sudo systemctl enable docker.service
-    sudo gpasswd -a "$USER" docker
+    sudo gpasswd -a ${USER} docker
   else
     # remove older versions of Docker called "docker" or "docker-engine" along with associated dependencies
     sudo apt -y remove docker docker-engine docker.io
@@ -50,8 +50,8 @@ if _ask "Do you wish to install Docker?" Y; then
     # enable Docker service to autostart on system boot
     sudo systemctl enable docker
     # allow non-root users to run Docker containers
-    sudo groupadd docker
-    sudo usermod -aG docker "$USER"
+    [ $(getent group docker) ] || sudo groupadd docker
+    sudo usermod -aG docker ${USER}
   fi
 fi
 
