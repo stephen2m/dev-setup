@@ -50,8 +50,8 @@ if _ask "Do you wish to install Docker?" Y; then
     # enable Docker service to autostart on system boot
     sudo systemctl enable docker
     # allow non-root users to run Docker containers
-    [ $(getent group docker) ] || sudo groupadd docker
-    sudo usermod -aG docker $(whoami)
+    #[ $(getent group docker) ] || sudo groupadd docker
+    #sudo usermod -aG docker $(whoami)
   fi
 fi
 
