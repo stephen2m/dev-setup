@@ -37,7 +37,7 @@ if _ask "Do you wish to install Docker?" Y; then
     _installPackage docker 
     _installPackage docker-compose
     sudo systemctl enable docker.service
-    sudo gpasswd -a ${USER} docker
+    sudo gpasswd -a $(whoami) docker
   else
     # remove older versions of Docker called "docker" or "docker-engine" along with associated dependencies
     sudo apt -y remove docker docker-engine docker.io
@@ -51,7 +51,7 @@ if _ask "Do you wish to install Docker?" Y; then
     sudo systemctl enable docker
     # allow non-root users to run Docker containers
     [ $(getent group docker) ] || sudo groupadd docker
-    sudo usermod -aG docker ${USER}
+    sudo usermod -aG docker $(whoami)
   fi
 fi
 
@@ -65,7 +65,7 @@ if _ask "Do you wish to install Virtual Box?" Y; then
     _installPackage virtualbox-guest-iso
     sudo modprobe vboxdrv
     _installPackage virtualbox-ext-oracle
-    sudo gpasswd -a "$USER" vboxusers
+    sudo gpasswd -a $(whoami) vboxusers
   else
     # add the GPG keys of the Oracle VirtualBox repository
     wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
