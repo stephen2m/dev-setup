@@ -121,11 +121,10 @@ _ask() {
     _errorExit "Function _ask expected 2 (two) parameters but got $#: '$*'.  Usage: _ask <question> <Y/N>"
   fi
 
-  _logMessage " [?] $*\n"
-
   local prompt default reply
 
   if [[ ${AUTO_ANSWER} ]]; then
+    _logMessage " [?] $*: $2\n"
     case "${2:-}" in
       Y*|y*) return 0 ;;
       N*|n*) return 1 ;;
@@ -155,6 +154,8 @@ _ask() {
         if [[ -z "$reply" ]]; then
           reply=$default
         fi
+
+        _logMessage " [?] $1 $prompt: $reply\n"
 
         # Check if the reply is valid
         case "$reply" in
