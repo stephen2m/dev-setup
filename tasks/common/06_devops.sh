@@ -27,11 +27,7 @@ else
 fi
 
 if _ask "Do you wish to install the Heroku CLI client?" Y; then
-  if [[ $(_getLinuxVersion) == "arch" ]]; then
-    _installPackage heroku-cli-nightly
-  else
-    sudo snap install --classic heroku
-  fi
+  curl https://cli-assets.heroku.com/install.sh | sh
 fi
 
 if _ask "Do you wish to install Docker?" Y; then
@@ -48,8 +44,8 @@ if _ask "Do you wish to install Docker?" Y; then
     # add the GPG key for Docker repository
     wget https://download.docker.com/linux/debian/gpg | sudo apt-key add gpg
     # Add the official Docker repository to the sources list
-    echo "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee -a /etc/apt/sources.list.d/docker.list
-    sudo apt update
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+    sudo apt update -y
     _installPackage docker-ce
     # enable Docker service to autostart on system boot
     sudo systemctl enable docker

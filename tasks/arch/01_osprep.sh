@@ -63,8 +63,8 @@ if _ask "Do you wish to speed up compiling packages by changing makeflags and co
   esac
 fi
 
-# once installed, run `arch-audit --upgradable --quiet` to see packages 
-# that have vulnerabilities and a fix has been made
+# once arch-audit is installed, run `arch-audit --upgradable --quiet`
+# to see packages that have vulnerabilities and a fix has been made
 sudo pacman -S --noconfirm --needed git xclip base-devel yay bind-tools zip unzip wget curl asciinema netcat lsd arch-audit
 
 _scriptCompletedMessage $start_sec
