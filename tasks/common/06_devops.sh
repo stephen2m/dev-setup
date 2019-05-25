@@ -31,7 +31,7 @@ fi
 if _ask "Do you wish to install the Heroku CLI client?" Y; then
   curl https://cli-assets.heroku.com/install.sh | sh
   if [[ $(which heroku) == "/usr/local/bin/heroku" ]]; then
-    _outputMessage "Successfully installed the Heroku CLI client"
+    _outputMessage "Heroku CLI binary is at $(which heroku)"
   fi
 fi
 
@@ -59,7 +59,7 @@ if _ask "Do you wish to install Docker?" Y; then
     #sudo usermod -aG docker $(whoami)
   fi
   if [[ $(which docker) == "/usr/bin/docker" ]]; then
-    _outputMessage "Successfully installed Docker"
+    _outputMessage "Docker binary is at $(which docker)"
   fi
 fi
 
@@ -87,7 +87,7 @@ if [[ ! ${CIRCLECI} ]]; then
       #sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.0.0.vbox-extpack
     fi
     if [[ $(which virtualbox) == "/usr/bin/virtualbox" ]]; then
-      _outputMessage "Successfully installed VirtualBox"
+      _outputMessage "VirtualBox binary at $(which virtualbox)"
     fi
   fi
 
@@ -102,8 +102,7 @@ if [[ ! ${CIRCLECI} ]]; then
       _installPackage kubeadm
       _installPackage kubectl
       sudo apt-mark hold kubelet kubeadm kubectl
-    fi  
-    _outputMessage "Successfully installed Kubernetes binaries"
+    fi
   fi
 fi
 
