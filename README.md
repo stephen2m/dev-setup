@@ -38,9 +38,9 @@ Simplify & automate setting up the following:
     * **03_nodejs.sh** setup the latest versions of NodeJS and NPM using [NVM](https://github.com/creationix/nvm) (Node Version Managers)
     * **04_ruby.sh** setup Ruby on Rails as per the version specified in common.sh.  By default installs Ruby 2.6.1 and Rails 5.2.2.
       For any issues in the install process, the [gorails setup guide](https://gorails.com/setup) should iron things out
-    * **05_aws.sh** setup basic AWS tools (as well as Python & PIP as a nice side-effect)
-    * **06_gce.sh** setup basic Google Cloud Engine (GCE)
-    * **07_ides.sh** setup basic Google Cloud tools
+    * **05_cloud.sh** setup basic cloud-related  - AWS (as well as Python & PIP as a nice side-effect), Google Cloud SDK
+    * **06_devops.sh** setup a few common devops tools - Heroku CLI, Docker, Kubernetes
+    * **07_ides.sh** setup preferred IDE(s)
 
 ## TODOS
 - Add macos scripting

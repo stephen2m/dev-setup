@@ -34,7 +34,7 @@ _outputMessage "Updating system packages"
 sudo apt update -y
 _outputMessage "Done updating system packages"
 
-sudo apt install -y git xclip unzip zip software-properties-common gcc build-essential libssl-dev libffi-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev iputils-ping libreadline-dev libffi-dev curl wget asciinema
+sudo apt install -y git xclip unzip zip software-properties-common gcc build-essential libssl-dev libffi-dev zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev iputils-ping libreadline-dev libffi-dev curl wget asciinema snapd apt-transport-https ca-certificates
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
