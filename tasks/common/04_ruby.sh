@@ -19,7 +19,7 @@ _writeHeader "$logMessage"
 _outputMessage "Started $logMessage $(basename "$0")"
 
 if [[ ! ${CIRCLECI} ]]; then
-  if _ask "Do you wish to install Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION?" Y ]]; then
+  if _ask "Do you wish to install Ruby v$RUBY_VERSION and Rails v$RAILS_VERSION?" Y; then
       if [[ ! -e "$HOME/.rbenv/plugins" ]]; then
         mkdir -p "$HOME"/.rbenv/plugins
       fi

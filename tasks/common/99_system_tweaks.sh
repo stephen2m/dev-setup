@@ -34,7 +34,7 @@ if [[ $(_getLinuxVersion) == "arch" ]]; then
   _outputMessage "Increase inotify watches to half the value of the max possible value ie 524288/2 => 262144"
   echo fs.inotify.max_user_watches=262144 | sudo tee /etc/sysctl.d/40-max-user-watches.conf && sudo sysctl --system
 
-  _outoutMessage "Enable user namespaces"
+  _outputMessage "Enable user namespaces"
   echo kernel.unprivileged_userns_clone = 1 | sudo tee /etc/sysctl.d/00-local-userns.conf
 fi
 
