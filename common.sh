@@ -14,7 +14,7 @@
 # and cause a pipeline (for example, curl -s https://sipb.mit.edu/ | grep foo)
 # to produce a failure return code if any command errors.
 # Normally, pipelines only return a failure if the last command errors
-set -euo pipefail
+set -eo pipefail
 
 export DEBIAN_FRONTEND=noninteractive
 
