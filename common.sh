@@ -24,7 +24,8 @@ LOG_FILE="${LOG_DIRECTORY}/"$(date +%Y-%m-%d).log
 # app versions and other useful shortcuts
 SDKMAN_URL="https://get.sdkman.io"
 JAVA_VERSION_ARCH="jdk8"
-JAVA_VERSION_DEBIAN="openjdk-8-jdk"
+JAVA_VERSION_DEBIAN="openjdk-11-jdk"
+JAVA_VERSION_FEDORA="java-11-openjdk"
 RBENV_REPO="git://github.com/sstephenson/ruby-build.git"
 RUBY_VERSION="2.6.1"
 RAILS_VERSION="5.2.2"
@@ -38,13 +39,13 @@ _outputMessage() {
     _errorExit "Function _outputMessage expected 1 (one) parameter but got $#: '$*'.  Usage: _outputMessage <message>"
   fi
 
-  local fmt="$1"; shift
+  local fmt="$1"
+  shift
   date=$(/bin/date "+%F %T")
   outputMessage="$fmt\n" "$@"
   _logMessage "$outputMessage"
   printf "$date: $outputMessage"
 }
-
 
 # Usage _logMessage <message>
 #
@@ -64,7 +65,7 @@ _logMessage() {
 
   date=$(/bin/date "+%F %T")
 
-  printf "$date: $1" >> $LOG_FILE 2>&1
+  printf "$date: $1" >>$LOG_FILE 2>&1
 }
 
 # Usage: _scriptCompletedMessage
@@ -106,7 +107,17 @@ _errorExit() {
 #
 # Determines linux-flavor running on the machine in use
 _getLinuxVersion() {
-  dist=$(grep ID_LIKE /etc/os-release | awk -F '=' '{print $2}')
+  # Fedora stores the distro id as ID under /etc/os-release
+  # Ubuntu and Arch store the distro id as ID_LIKE under /etc/os-release
+  #
+  # TODO: find how to make this into an elegant one liner
+  # $(cat /etc/*-release | grep -we "ID" -we "ID_LIKE" | awk -F '=' '{print $2}')
+
+  if [[ $(grep -r "ID_LIKE" /etc/os-release) ]]; then
+    dist=$(grep -w "ID_LIKE" /etc/os-release | awk -F '=' '{print $2}')
+  else
+    dist=$(grep -w "ID" /etc/os-release | awk -F '=' '{print $2}')
+  fi
 
   echo "$dist"
 }
@@ -138,30 +149,30 @@ _ask() {
   if [[ ${AUTO_ANSWER} ]]; then
     _logMessage " [?] $1 [$prompt]: $default\n"
     case "${2:-}" in
-      Y*|y*) return 0 ;;
-      N*|n*) return 1 ;;
+    Y* | y*) return 0 ;;
+    N* | n*) return 1 ;;
     esac
   else
-      while true; do
-        # Ask the question (not using "read -p" as it uses stderr not stdout)
-        echo -n "  [?] $1 [$prompt] "
+    while true; do
+      # Ask the question (not using "read -p" as it uses stderr not stdout)
+      echo -n "  [?] $1 [$prompt] "
 
-        # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
-        read reply < /dev/tty
+      # Read the answer (use /dev/tty in case stdin is redirected from somewhere else)
+      read reply </dev/tty
 
-        # Default?
-        if [[ -z "$reply" ]]; then
-          reply=$default
-        fi
+      # Default?
+      if [[ -z "$reply" ]]; then
+        reply=$default
+      fi
 
-        _logMessage " [?] $1 [$prompt]: $reply\n"
+      _logMessage " [?] $1 [$prompt]: $reply\n"
 
-        # Check if the reply is valid
-        case "$reply" in
-          Y*|y*) return 0 ;;
-          N*|n*) return 1 ;;
-        esac
-      done
+      # Check if the reply is valid
+      case "$reply" in
+      Y* | y*) return 0 ;;
+      N* | n*) return 1 ;;
+      esac
+    done
   fi
 }
 
@@ -194,15 +205,18 @@ _installPackage() {
   _outputMessage "Trying to install $1"
 
   case $(_getLinuxVersion) in
-    arch)
-      yay -S --noconfirm --needed --overwrite '*' "${1}"
-      ;;
-    debian)
-      sudo apt install -y "${1}"
-      ;;
-    *)
-      _errorExit "Could not determine OS/distro in use to install $1. Parser found $(_getLinuxVersion)"
-      ;;
+  arch)
+    yay -S --noconfirm --needed --overwrite '*' "${1}"
+    ;;
+  debian)
+    sudo apt install -y "${1}"
+    ;;
+  fedora)
+    sudo dnf install -y "${1}"
+    ;;
+  *)
+    _errorExit "Could not determine OS/distro in use to install $1. Parser found $(_getLinuxVersion)"
+    ;;
   esac
 
   _outputMessage "Successfully installed $1"
@@ -217,9 +231,9 @@ _isOnline() {
   if [[ ! ${CIRCLECI} ]]; then
     isOnline=$(ping -q -w1 -c1 google.com &>/dev/null && echo online || echo offline)
     if [[ ${isOnline} == "offline" ]]; then
-      _errorExit "Cannot install packages when offline";
+      _errorExit "Cannot install packages when offline"
     else
-      _outputMessage "Internet connection verified successfully";
+      _outputMessage "Internet connection verified successfully"
     fi
   else
     _outputMessage "Skipping internet connection check"
@@ -229,10 +243,10 @@ _isOnline() {
 # Display header message, mostly used for a nice separator between "execution phases"
 #
 # $1 - message
-_writeHeader(){
-	local h="$@"
-  
-	echo "---------------------------------------------------------------"
-	echo "     ${h}"
-	echo "---------------------------------------------------------------"
+_writeHeader() {
+  local h="$@"
+
+  echo "---------------------------------------------------------------"
+  echo "     ${h}"
+  echo "---------------------------------------------------------------"
 }

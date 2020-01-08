@@ -13,19 +13,19 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1091
 . common.sh
 
-GLOBAL_GITIGNORE="$HOME/.gitignore"
-SSH_KEY_PUB="$HOME/.ssh/id_rsa.pub"
+GLOBAL_GITIGNORE="${HOME}/.gitignore"
+SSH_KEY_PUB="${HOME}/.ssh/id_rsa.pub"
 
 logMessage="git basics"
 
-_writeHeader "$logMessage"
+_writeHeader "${logMessage}"
 
-_outputMessage "Started $logMessage $(basename "$0")"
+_outputMessage "Started ${logMessage} $(basename "$0")"
 
-if [[ ! -e "$GLOBAL_GITIGNORE" ]]; then
- _outputMessage "Initializing global gitignore and update gitconfig"
- touch "${GLOBAL_GITIGNORE}"
- git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
+if [[ ! -e "${GLOBAL_GITIGNORE}" ]]; then
+  _outputMessage "Initializing global gitignore and update gitconfig"
+  touch "${GLOBAL_GITIGNORE}"
+  git config --global core.excludesfile "${GLOBAL_GITIGNORE}"
 fi
 
 if _ask "Do you wish to initialize your gitconfig?" N; then
@@ -43,7 +43,7 @@ fi
 
 if [[ ! -f ${SSH_KEY_PUB} && ! ${CIRCLECI} ]]; then
   if _ask "Do you wish to create an SSH key?" Y; then
-    ssh-keygen  -t rsa -b 4096 -o -a 100 -q
+    ssh-keygen -t rsa -b 4096 -o -a 100 -q
     [[ -f ${SSH_KEY_PUB} ]] && cat ${SSH_KEY_PUB} | xclip -r -selection clipboard
     _outputMessage "Public key successfully created and copied into your clipboard."
   fi

@@ -21,13 +21,15 @@ _outputMessage "Started OS init script $(basename "$0")"
 
 if [[ ${CIRCLECI} ]]; then
   _outputMessage "Skipping sudo check for circleci"
-  apt update -y
-  apt install -y sudo
 else
   _hasSudo
 
   # keep existing `sudo` timestamp until the script is completed
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 fi
 
 _outputMessage "Updating system packages"
@@ -38,6 +40,6 @@ sudo apt install -y git xclip unzip zip software-properties-common gcc build-ess
 
 LOCALE_CONFIG='#locale
 export LC_ALL="en_US.UTF-8"'
-grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" | sudo tee -a /etc/profile > /dev/null
+grep -qF -- "$LOCALE_CONFIG" /etc/profile || echo "$LOCALE_CONFIG" | sudo tee -a /etc/profile >/dev/null
 
 _scriptCompletedMessage ${start_sec}

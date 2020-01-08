@@ -2,50 +2,45 @@
 #
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
+shared_steps: &shared_steps
+  working_directory: /home/stephen2m/repo
+
+  steps:
+    - checkout
+    - run:
+        name: List Directory Contents
+        command: |
+          pwd; ls -lsha
+    - run:
+        name: Provision OS
+        command: |
+          bash setup.sh
+        environment:
+          AUTO_ANSWER: yes
+
+    - store_artifacts:
+        path: logs
+
 version: 2
 jobs:
   run-ubuntu:
+    <<: *shared_steps
     docker:
-      - image: ubuntu:18.04
-    working_directory: /home/stephen2m/repo
+      - image: stephenm/ubuntu-base-image:disco
 
-    steps:
-      - checkout
-      - run:
-          name: List Directory Contents
-          command: |
-            pwd; ls -lsha
-      - run:
-          name: Provision OS
-          command: |
-            bash setup.sh
-          environment:
-            AUTO_ANSWER: yes
-
-      - store_artifacts:
-          path: logs
+  run-fedora:
+    <<: *shared_steps
+    docker:
+      - image: stephenm/fedora-base-image:latest
 
   run-arch-linux:
+    <<: *shared_steps
     docker:
       - image: oddlid/arch-desktop
-    working_directory: /home/stephen2m/repo
-
-    steps:
-      - checkout
-      - run:
-          name: list directory
-          command: |
-            pwd; ls -lsha
-      - run:
-          name: Provision OS
-          command: |
-            bash tasks/arch/01_osprep.sh
-
-      - store_artifacts:
-          path: logs
 
 workflows:
   version: 2
   provision-environment:
     jobs:
       - run-ubuntu
+      - run-fedora

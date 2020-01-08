@@ -14,9 +14,9 @@ start_sec=$(/bin/date +%s.%N)
 
 logMessage="NodeJS and NPM setup"
 
-_writeHeader "$logMessage"
+_writeHeader "${logMessage}"
 
-_outputMessage "Started $logMessage $(basename "$0")"
+_outputMessage "Started ${logMessage} $(basename "$0")"
 
 if [[ ! ${CIRCLECI} ]]; then
   if [[ $(npm --version) && $(node --version) ]]; then
@@ -26,16 +26,16 @@ if [[ ! ${CIRCLECI} ]]; then
 
     if _ask "Do you wish to install npm?" Y; then
       curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.32.1/install.sh | bash
-      export NVM_DIR="$HOME/.nvm"
+      export NVM_DIR="${HOME}/.nvm"
       # shellcheck disable=SC1090
-      [[ -s "$NVM_DIR/nvm.sh" ]] && . "$NVM_DIR/nvm.sh"
+      [[ -s "${NVM_DIR}/nvm.sh" ]] && . "${NVM_DIR}/nvm.sh"
       nvm install node
       nvm use $(node -v)
       nvm alias default $(node -v)
       _outputMessage "Installed node $(node -v) and NPM v$(npm -v) successfully."
       _outputMessage "Your default node version is node $(node -v)."
       _outputMessage "Installing Angular CLI & tslint globally."
-      npm install -g @angular/cli tslint && \
+      npm install -g @angular/cli tslint
       _outputMessage "Installed Angular CLI and tslint successfully"
     fi
   fi

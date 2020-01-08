@@ -25,7 +25,11 @@ else
   _hasSudo
 
   # keep existing `sudo` timestamp until the script is completed
-  while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+  while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+  done 2>/dev/null &
 fi
 
 if [[ $(_getLinuxVersion) == "arch" ]]; then
@@ -45,17 +49,15 @@ if [[ -f /sys/module/battery/initstate || -d /proc/acpi/battery/BAT* ]]; then
   _installPackage thermald
 fi
 
-_outputMessage "Installing cpupower to enable scaling CPU frequency"
-_installPackage cpupower
-
 case $(_getLinuxVersion) in
-  arch)
-    sudo systemctl enable tlp
-    sudo systemctl enable tlp-sleep.service
-    sudo systemctl enable thermald
-    sudo systemctl enable cpupower
-  debian)
-    # todo: find how to activate the packages
+arch)
+  sudo systemctl enable tlp
+  sudo systemctl enable tlp-sleep.service
+  sudo systemctl enable thermald
+  ;;
+*)
+  _outputMessage "Skipping enabling system tweaks"
+  ;;
 esac
 
 _scriptCompletedMessage $start_sec
