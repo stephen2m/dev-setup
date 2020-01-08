@@ -20,10 +20,10 @@ Simplify & automate setting up the following:
 
 ### Section 1: About
 
-1. **Scripts tested on Manjaro Deepin 18.0.2 and Ubuntu 18.04.2 Bionic Beaver**
+1. **Scripts tested on Manjaro Deepin 18.0.2, Ubuntu 18.04.2 Bionic Beaver and Fedora 30**
 1. **For directories with more than one file, they'll execute based on their numbering, starting from `01_*.sh`**
-3. If you fancy using optional githooks, use [my custom githooks](https://github.com/stephen2m/githooks) by running `git submodule update --init && git config core.hooksPath .githooks`
-4. Most yes/no prompts can be disabled by setting an environment variable `AUTO_ANSWER` with the value `true`.
+1. If you fancy using optional githooks, use [my custom githooks](https://github.com/stephen2m/githooks) by running `git submodule update --init && git config core.hooksPath .githooks`
+1. Most yes/no prompts can be disabled by setting an environment variable `AUTO_ANSWER` with the value `true`.
    This however doesn't cover any other user input eg git name & email
 
 ### Section 2: Brief Overview of the Scripts 
@@ -39,8 +39,10 @@ Simplify & automate setting up the following:
     * **04_ruby.sh** setup Ruby on Rails as per the version specified in common.sh.  By default installs Ruby 2.6.1 and Rails 5.2.2.
       For any issues in the install process, the [gorails setup guide](https://gorails.com/setup) should iron things out
     * **05_cloud.sh** setup basic cloud-related  - AWS (as well as Python & PIP as a nice side-effect), Google Cloud SDK
-    * **06_devops.sh** setup a few common devops tools - Heroku CLI, Docker, Kubernetes
+    * **06_devops.sh** setup a few common devops tools - Heroku CLI, Docker, Kubernetes, DBeaver
     * **07_ides.sh** setup preferred IDE(s)
 
 ## TODOS
-- Add macos scripting
+- Finalize Arch Linux scripting
+- Add Fedora scripting
+- Add MacOS scripting
