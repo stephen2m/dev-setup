@@ -5,8 +5,6 @@ start_sec=$(/bin/date +%s.%N)
 # shellcheck disable=SC1090
 . "$(dirname "$0")/common.sh"
 
-_outputMessage "Started script $(basename "$0") for a $(_getLinuxVersion)-based distro"
-
 distro=$(_getLinuxVersion)
 targetDistros=("arch" "debian" "fedora")
 
@@ -15,6 +13,7 @@ if [[ "${distro}" == "fedora" && ${CIRCLECI} ]]; then
 fi
 
 if [[ "${targetDistros[@]}" =~ "${distro}" ]]; then
+  _outputMessage "Started script $(basename "$0") for a(n) $(distro)-based distro"
   for file in $(find tasks/${distro}/*.sh | sort); do
     bash "$file" -H || break
   done
