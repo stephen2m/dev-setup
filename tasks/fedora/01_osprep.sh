@@ -48,7 +48,7 @@ _outputMessage "Install RpmFusion Free Repo"
 ###
 sudo dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 
-sudo dnf install -y git gnome-shell-extension-dash-to-dock gnome-shell-extension-topicons-plus gnome-shell-extension-user-theme gnome-tweak-tool python3-devel dnf-plugins-core
+sudo dnf install -y git python3-devel dnf-plugins-core
 
 if [[ ! ${CIRCLECI} ]]; then
   sudo sed -i 's/enabled=0/enabled=1/g' /etc/yum.repos.d/fedora-updates-modular.repo
